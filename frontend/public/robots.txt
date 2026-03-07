@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Block admin routes
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/dashboard
+Disallow: /admin/analytics
+Disallow: /admin/revenue
+
+# Block API routes
+Disallow: /api/
+
+Sitemap: https://tooli.app/sitemap.xml
