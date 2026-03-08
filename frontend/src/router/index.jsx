@@ -84,6 +84,30 @@ const RobotsGenerator  = lazy(() => import('../pages/tools/RobotsGenerator'));
 const KeywordDensity   = lazy(() => import('../pages/tools/KeywordDensity'));
 const SitemapGenerator = lazy(() => import('../pages/tools/SitemapGenerator'));
 
+// ── Batch 5 — Image Tools ─────────────────────────────────────────────────────
+const ImageCropTool  = lazy(() => import('../pages/tools/ImageCropTool'));
+const SvgOptimizer   = lazy(() => import('../pages/tools/SvgOptimizer'));
+
+// ── Batch 5 — PDF Tools ───────────────────────────────────────────────────────
+const PdfPageCounter = lazy(() => import('../pages/tools/PdfPageCounter'));
+const PdfMetadata    = lazy(() => import('../pages/tools/PdfMetadata'));
+
+// ── Batch 5 — Text Tools ──────────────────────────────────────────────────────
+const TextDiff        = lazy(() => import('../pages/tools/TextDiff'));
+const MarkdownToHtml  = lazy(() => import('../pages/tools/MarkdownToHtml'));
+
+// ── Batch 5 — Developer Tools ─────────────────────────────────────────────────
+const JsMinifier      = lazy(() => import('../pages/tools/JsMinifier'));
+const CronGenerator   = lazy(() => import('../pages/tools/CronGenerator'));
+
+// ── Batch 5 — Calculator Tools ────────────────────────────────────────────────
+const EmiCalculator   = lazy(() => import('../pages/tools/EmiCalculator'));
+
+// ── Batch 5 — Utility Tools ───────────────────────────────────────────────────
+const TimezoneConverter = lazy(() => import('../pages/tools/TimezoneConverter'));
+const RandomName        = lazy(() => import('../pages/tools/RandomName'));
+const UserAgentParser   = lazy(() => import('../pages/tools/UserAgentParser'));
+
 // ── Utility / Security / Developer Tools (Batch 2) ───────────────────────────
 const RandomNumber          = lazy(() => import('../pages/tools/RandomNumber'));
 const AspectRatio           = lazy(() => import('../pages/tools/AspectRatio'));
@@ -112,13 +136,15 @@ export const router = createBrowserRouter([
       { path: 'tools/resize-image',   element: wrap(ImageResizer) },
       { path: 'tools/convert-image',  element: wrap(ImageConverter) },
       { path: 'tools/base64-image',   element: wrap(Base64Image) },
-      // coming soon: image-crop, svg-optimizer
+      { path: 'tools/image-crop',     element: wrap(ImageCropTool) },
+      { path: 'tools/svg-optimizer',  element: wrap(SvgOptimizer) },
 
       // ── PDF Tools (3 built + 2 coming soon) ──────────────────────────────
       { path: 'tools/merge-pdfs',   element: wrap(PdfMerger) },
       { path: 'tools/split-pdf',    element: wrap(PdfSplitter) },
-      { path: 'tools/image-to-pdf', element: wrap(ImageToPdf) },
-      // coming soon: pdf-page-counter, pdf-metadata
+      { path: 'tools/image-to-pdf',    element: wrap(ImageToPdf) },
+      { path: 'tools/pdf-page-counter', element: wrap(PdfPageCounter) },
+      { path: 'tools/pdf-metadata',     element: wrap(PdfMetadata) },
 
       // ── Text Tools (4 built + 5 coming soon) ─────────────────────────────
       { path: 'tools/word-counter',       element: wrap(WordCounter) },
@@ -128,7 +154,8 @@ export const router = createBrowserRouter([
       { path: 'tools/duplicate-line-remover',  element: wrap(DuplicateLineRemover) },
       { path: 'tools/html-to-text',            element: wrap(HtmlToText) },
       { path: 'tools/email-extractor',         element: wrap(EmailExtractor) },
-      // coming soon: text-diff, markdown-to-html
+      { path: 'tools/text-diff',               element: wrap(TextDiff) },
+      { path: 'tools/markdown-to-html',        element: wrap(MarkdownToHtml) },
 
       // ── Developer Tools (11 built + 5 coming soon) ───────────────────────
       { path: 'tools/json-formatter',      element: wrap(JsonFormatter) },
@@ -145,7 +172,8 @@ export const router = createBrowserRouter([
       { path: 'tools/csv-to-json',          element: wrap(CsvToJson) },
       { path: 'tools/binary-converter',     element: wrap(BinaryConverter) },
       { path: 'tools/roman-numeral',        element: wrap(RomanNumeral) },
-      // coming soon: js-minifier, cron-generator
+      { path: 'tools/js-minifier',          element: wrap(JsMinifier) },
+      { path: 'tools/cron-generator',       element: wrap(CronGenerator) },
 
       // ── Security Tools (5 built) ──────────────────────────────────────────
       { path: 'tools/password-generator', element: wrap(PasswordGenerator) },
@@ -166,7 +194,7 @@ export const router = createBrowserRouter([
       { path: 'tools/percentage-calculator', element: wrap(PercentageCalculator) },
       { path: 'tools/tip-calculator',        element: wrap(TipCalculator) },
       { path: 'tools/bmi-calculator',        element: wrap(BmiCalculator) },
-      // coming soon: emi-calculator
+      { path: 'tools/emi-calculator',        element: wrap(EmiCalculator) },
 
       // ── Utility Tools (2 built + 7 coming soon) ──────────────────────────
       { path: 'tools/qr-generator',     element: wrap(QrGenerator) },
@@ -174,8 +202,10 @@ export const router = createBrowserRouter([
       { path: 'tools/color-palette',    element: wrap(ColorPaletteGenerator) },
       { path: 'tools/random-number',    element: wrap(RandomNumber) },
       { path: 'tools/aspect-ratio',     element: wrap(AspectRatio) },
-      { path: 'tools/countdown-timer',  element: wrap(CountdownTimer) },
-      // coming soon: timezone-converter, random-name, user-agent-parser
+      { path: 'tools/countdown-timer',    element: wrap(CountdownTimer) },
+      { path: 'tools/timezone-converter', element: wrap(TimezoneConverter) },
+      { path: 'tools/random-name',        element: wrap(RandomName) },
+      { path: 'tools/user-agent-parser',  element: wrap(UserAgentParser) },
 
       // ── Guides ────────────────────────────────────────────────────────────
       { path: 'guides',       element: wrap(Guides) },

@@ -1,7 +1,7 @@
 # Tooli — Production-Ready MERN Tools Website
 
 > 60 free online tools · 8 categories · No database required · Admin dashboard · Revenue tracking · Analytics · SEO-optimised
-> **48 tools built · 12 coming soon**
+> **60 tools built · 0 coming soon**
 
 ---
 
@@ -155,21 +155,30 @@ tooli/
             │
             ├── Guides.jsx               ← /guides listing with category filter
             ├── GuideDetail.jsx          ← /guides/:slug article renderer
-            └── tools/                   ← 48 built tool pages (+ ComingSoon.jsx catch-all)
+            └── tools/                   ← 60 built tool pages (+ ComingSoon.jsx catch-all)
                 ├── ImageCompressor.jsx, ImageResizer.jsx, ImageConverter.jsx
+                ├── Base64Image.jsx, ImageCropTool.jsx, SvgOptimizer.jsx
                 ├── PdfMerger.jsx, PdfSplitter.jsx, ImageToPdf.jsx
+                ├── PdfPageCounter.jsx, PdfMetadata.jsx
                 ├── WordCounter.jsx, SlugGenerator.jsx, TextCaseConverter.jsx
                 ├── LoremIpsumGenerator.jsx, DuplicateLineRemover.jsx, HtmlToText.jsx
+                ├── TextDiff.jsx, MarkdownToHtml.jsx, EmailExtractor.jsx
                 ├── JsonFormatter.jsx, Base64Tool.jsx, UrlEncoder.jsx
                 ├── ColorConverter.jsx, UuidGenerator.jsx, TimestampConverter.jsx
                 ├── HtmlEntityEncoder.jsx, UrlParser.jsx, JwtDecoder.jsx
                 ├── RegexTester.jsx, JsonToCsv.jsx, CsvToJson.jsx
                 ├── BinaryConverter.jsx, RomanNumeral.jsx
+                ├── JsMinifier.jsx, CronGenerator.jsx
+                ├── MetaTagGenerator.jsx, OgGenerator.jsx, RobotsGenerator.jsx
+                ├── KeywordDensity.jsx, SitemapGenerator.jsx
                 ├── PasswordGenerator.jsx, HashGenerator.jsx
-                ├── PasswordStrengthChecker.jsx, UuidValidator.jsx
+                ├── PasswordStrengthChecker.jsx, UuidValidator.jsx, HashCompare.jsx
+                ├── AgeCalculator.jsx, BmiCalculator.jsx, PercentageCalculator.jsx
+                ├── EmiCalculator.jsx, TipCalculator.jsx
                 ├── QrGenerator.jsx, UnitConverter.jsx, ColorPaletteGenerator.jsx
-                ├── RandomNumber.jsx, AspectRatio.jsx, CountdownTimer.jsx
-                └── ComingSoon.jsx       ← Catch-all for unbuilt tools
+                ├── RandomNumber.jsx, RandomName.jsx, UserAgentParser.jsx
+                ├── TimezoneConverter.jsx, AspectRatio.jsx, CountdownTimer.jsx
+                └── ComingSoon.jsx       ← Catch-all (no unbuilt tools remain)
 ```
 
 ---
@@ -180,7 +189,7 @@ tooli/
 > - ✅ **Built** — full UI, SEO content, JSON-LD schemas, working in production
 > - 🚧 **Coming Soon** — listed in `TOOLS`, routed to `ComingSoon.jsx`, indexed in sitemap
 
-**48 built · 12 coming soon**
+**60 built · 0 coming soon**
 
 ### Backend-Powered Tools (Node.js + Sharp / pdf-lib)
 
@@ -197,33 +206,33 @@ All 6 backend tools are fully built.
 
 ### Frontend-Only Tools (zero backend calls, fully in browser)
 
-#### Images (0 of 3 built)
+#### Images (3 of 3 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
-| 🚧 | Base64 Image Encoder | Convert images to/from Base64 data URIs for embedding in HTML/CSS |
-| 🚧 | Image Crop Tool | Crop images to any size or aspect ratio in-browser |
-| 🚧 | SVG Optimizer | Clean and minify SVG markup |
+| ✅ | **Base64 Image Encoder** | Convert images to/from Base64 data URIs for embedding in HTML/CSS |
+| ✅ | **Image Crop Tool** | Crop images to any size or aspect ratio in-browser |
+| ✅ | **SVG Optimizer** | Clean and minify SVG markup |
 
-#### PDF (0 of 2 built)
+#### PDF (2 of 2 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
-| 🚧 | PDF Page Counter | Count PDF pages without uploading |
-| 🚧 | PDF Metadata Viewer | View title, author, creation date and other PDF properties |
+| ✅ | **PDF Page Counter** | Count PDF pages without uploading |
+| ✅ | **PDF Metadata Viewer** | View title, author, creation date and other PDF properties |
 
-#### Text (6 of 9 built)
+#### Text (9 of 9 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
 | ✅ | **Word Counter** | Words, chars, sentences, paragraphs, read time, top keywords |
 | ✅ | **Slug Generator** | Convert text to URL-friendly slug. Normalises accents. Hyphen or underscore separator. |
 | ✅ | **Text Case Converter** | 10 formats: UPPER, lower, Title, Sentence, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, dot.case |
 | ✅ | **Lorem Ipsum Generator** | 1–20 paragraphs, 1–50 sentences, or 10–500 words of classic Cicero filler text |
-| 🚧 | Text Diff Checker | Compare two texts and highlight line-by-line differences |
+| ✅ | **Text Diff Checker** | Compare two texts and highlight line-by-line differences |
 | ✅ | **Duplicate Line Remover** | Remove duplicate lines — case-sensitive/insensitive, sort, trim |
-| 🚧 | Markdown to HTML | Convert Markdown to HTML with live preview |
+| ✅ | **Markdown to HTML** | Convert Markdown to HTML with live preview |
 | ✅ | **HTML to Plain Text** | Strip HTML tags, decode entities, optional line break preservation |
-| 🚧 | Email Extractor | Extract all email addresses from text or HTML |
+| ✅ | **Email Extractor** | Extract all email addresses from text or HTML |
 
-#### Developer (14 of 16 built)
+#### Developer (16 of 16 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
 | ✅ | **JSON Formatter** | Beautify, minify, and validate JSON with syntax highlighting |
@@ -240,58 +249,48 @@ All 6 backend tools are fully built.
 | ✅ | **CSV to JSON Converter** | RFC 4180 CSV parser, header toggle, copy/download JSON |
 | ✅ | **Number Base Converter** | Binary ↔ Octal ↔ Decimal ↔ Hex — type in any field |
 | ✅ | **Roman Numeral Converter** | Decimal → Roman and Roman → Decimal, validates 1–3999 |
-| 🚧 | JS / CSS Minifier | Minify JavaScript or CSS code |
-| 🚧 | Cron Expression Generator | Visual cron builder with plain-English description |
+| ✅ | **JS / CSS Minifier** | Minify JavaScript or CSS code |
+| ✅ | **Cron Expression Generator** | Visual cron builder with plain-English description |
 
-#### SEO (0 of 5 built)
+#### SEO (5 of 5 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
-| 🚧 | Meta Tag Generator | Generate `<title>`, `<meta description>`, OG and Twitter card tags |
-| 🚧 | Open Graph Generator | Build Open Graph meta tags for social media sharing |
-| 🚧 | Robots.txt Generator | Build a custom robots.txt with allow/disallow rules |
-| 🚧 | Keyword Density Checker | Analyse keyword frequency and density |
-| 🚧 | Sitemap Generator | Build XML sitemap from a list of URLs |
+| ✅ | **Meta Tag Generator** | Generate `<title>`, `<meta description>`, OG and Twitter card tags |
+| ✅ | **Open Graph Generator** | Build Open Graph meta tags for social media sharing |
+| ✅ | **Robots.txt Generator** | Build a custom robots.txt with allow/disallow rules |
+| ✅ | **Keyword Density Checker** | Analyse keyword frequency and density |
+| ✅ | **Sitemap Generator** | Build XML sitemap from a list of URLs |
 
-#### Security (4 of 5 built)
+#### Security (5 of 5 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
 | ✅ | **Password Generator** | Length 4–128, character type toggles, bulk generation, strength meter |
 | ✅ | **Hash Generator** | SHA-256/SHA-512 via Web Crypto API. No data leaves device. |
 | ✅ | **Password Strength Checker** | Score, crack time estimate, NIST criteria checklist, common pattern detection |
-| 🚧 | Hash Compare Tool | Side-by-side hash comparison for integrity verification |
+| ✅ | **Hash Compare Tool** | Side-by-side hash comparison for integrity verification |
 | ✅ | **UUID Validator** | Validate UUID format, detect v1–v5 version and variant. Bulk mode. Generate v4. |
 
-#### Calculator (0 of 5 built)
+#### Calculator (5 of 5 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
-| 🚧 | Age Calculator | Exact age in years, months, days from any date of birth |
-| 🚧 | BMI Calculator | Body Mass Index with metric and imperial units |
-| 🚧 | Percentage Calculator | Calculate percentages, change, and X as % of Y |
-| 🚧 | EMI / Loan Calculator | Monthly payments, total interest, amortisation schedule |
-| 🚧 | Tip Calculator | Tip amount + bill split for any group size |
+| ✅ | **Age Calculator** | Exact age in years, months, days from any date of birth |
+| ✅ | **BMI Calculator** | Body Mass Index with metric and imperial units |
+| ✅ | **Percentage Calculator** | Calculate percentages, change, and X as % of Y |
+| ✅ | **EMI / Loan Calculator** | Monthly payments, total interest, amortisation schedule |
+| ✅ | **Tip Calculator** | Tip amount + bill split for any group size |
 
-#### Utility (6 of 9 built)
+#### Utility (9 of 9 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
 | ✅ | **QR Code Generator** | Live preview, custom size/colours, error correction. Download PNG. |
 | ✅ | **Unit Converter** | Length, Weight, Temperature, Area, Data, Speed |
 | ✅ | **Color Palette Generator** | 6 palette types, HSL colour math, CSS export, PNG download via Canvas |
-| 🚧 | Timezone Converter | Convert time between world timezones |
+| ✅ | **Timezone Converter** | Convert time between world timezones |
 | ✅ | **Random Number Generator** | Cryptographically secure, unique mode, bulk up to 10,000, 4 separator options |
-| 🚧 | Random Name Generator | Random names for testing, games, or fiction |
-| 🚧 | User Agent Parser | Detect browser, OS, and device from user agent strings |
+| ✅ | **Random Name Generator** | Random names for testing, games, or fiction |
+| ✅ | **User Agent Parser** | Detect browser, OS, and device from user agent strings |
 | ✅ | **Aspect Ratio Calculator** | Calculate & scale aspect ratios, 8 presets, visual preview box |
 | ✅ | **Countdown Timer** | Countdown to any date/time, quick presets, progress bar, browser alert |
-
-### Coming Soon — Build Priority
-
-The 12 unbuilt tools are grouped below by estimated build complexity (all frontend-only):
-
-| Priority | Tools |
-|----------|-------|
-| **Quick wins** (< 1 hour each) | ~~CSV to JSON~~, ~~Number Base Converter~~, ~~Roman Numeral Converter~~, ~~Duplicate Line Remover~~, ~~HTML to Plain Text~~, ~~Random Number Generator~~, ~~Aspect Ratio Calculator~~, ~~Countdown Timer~~, ~~Password Strength Checker~~, ~~UUID Validator~~, ~~Age Calculator~~, ~~Percentage Calculator~~, ~~Tip Calculator~~ |
-| **Medium** (1–3 hours each) | Text Diff Checker, Markdown to HTML, ~~Email Extractor~~, JS/CSS Minifier, ~~Hash Compare Tool~~, ~~BMI Calculator~~, EMI/Loan Calculator, Timezone Converter, Random Name Generator, User Agent Parser, ~~Base64 Image Encoder~~ |
-| **Larger scope** (3+ hours each) | Image Crop Tool, SVG Optimizer, PDF Page Counter, PDF Metadata Viewer, ~~Meta Tag Generator~~, ~~Open Graph Generator~~, ~~Robots.txt Generator~~, ~~Keyword Density Checker~~, ~~Sitemap Generator~~, Cron Expression Generator |
 
 ---
 
@@ -319,7 +318,7 @@ Every tool page now includes:
 - **JSON-LD structured data** — `WebApplication` + `FAQPage` schemas injected via `useSEO` and cleaned up on unmount
 
 ### `Icons.jsx`
-Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="none"`) for 48 tools (Phase 2 + Phase 4 + Phase 5):
+Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="none"`) for 60 tools (Phase 2 + Phase 4 + Phase 5):
 
 **Phase 2 originals (15):** `CompressImageIcon`, `ResizeImageIcon`, `ConvertImageIcon`, `MergePdfIcon`, `SplitPdfIcon`, `ImageToPdfIcon`, `WordCounterIcon`, `JsonFormatterIcon`, `Base64Icon`, `UrlEncoderIcon`, `PasswordGeneratorIcon`, `ColorConverterIcon`, `HashGeneratorIcon`, `QrGeneratorIcon`, `UnitConverterIcon`
 
@@ -332,6 +331,8 @@ Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="
 **Phase 5 Batch 3 additions (7):** `AgeCalculatorIcon`, `PercentageCalculatorIcon`, `TipCalculatorIcon`, `BmiCalculatorIcon`, `HashCompareIcon`, `EmailExtractorIcon`, `Base64ImageIcon`
 
 **Phase 5 Batch 4 additions (5):** `MetaTagGeneratorIcon`, `OgGeneratorIcon`, `RobotsGeneratorIcon`, `KeywordDensityIcon`, `SitemapGeneratorIcon`
+
+**Phase 5 Batch 5 additions (12):** `ImageCropToolIcon`, `SvgOptimizerIcon`, `PdfPageCounterIcon`, `PdfMetadataIcon`, `TextDiffIcon`, `MarkdownToHtmlIcon`, `JsMinifierIcon`, `CronGeneratorIcon`, `EmiCalculatorIcon`, `TimezoneConverterIcon`, `RandomNameIcon`, `UserAgentParserIcon`
 
 **Common UI (10):** `UploadIcon`, `SearchIcon`, `DownloadIcon`, `CopyIcon`, `CheckIcon`, `SparklesIcon`, `ArrowRightIcon`, `ShieldCheckIcon`, `ZapIcon`, `GlobeIcon`
 

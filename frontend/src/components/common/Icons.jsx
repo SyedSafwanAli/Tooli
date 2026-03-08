@@ -762,6 +762,173 @@ export const SitemapGeneratorIcon = ({ className = 'w-6 h-6' }) => (
   </svg>
 );
 
+// ─── Phase 5 Batch 5 Icons ────────────────────────────────────────────────────
+
+export const ImageCropToolIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Image frame */}
+    <rect x="2" y="2" width="20" height="16" rx="2" />
+    <circle cx="7" cy="7" r="1.5" />
+    <path d="M2 13l4-4 4 4 3-3 5 5" />
+    {/* Crop corner handles */}
+    <path d="M8 20v2M16 20v2M6 22h4M14 22h4" strokeOpacity="0.7" />
+    <path d="M8 20h8" strokeOpacity="0.4" />
+  </svg>
+);
+
+export const SvgOptimizerIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* SVG tag brackets */}
+    <path d="M3 8l-2 4 2 4" />
+    <path d="M21 8l2 4-2 4" />
+    {/* SVG text hint */}
+    <path d="M7 10.5c-.5-.5-1.5-.5-1.5.5s1 1 1 2-.5 1-1.5.5" strokeOpacity="0.9" />
+    <path d="M10 10h2l-2 4h2" strokeOpacity="0.9" />
+    <path d="M14 10v4M14 10h2M14 12h1.5" strokeOpacity="0.9" />
+    {/* Sparkle / optimize badge */}
+    <path d="M19 3l.5 1.5L21 5l-1.5.5L19 7l-.5-1.5L17 5l1.5-.5z" fill="currentColor" stroke="none" opacity="0.7" />
+  </svg>
+);
+
+export const PdfPageCounterIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* PDF document */}
+    <path d="M4 4h10l4 4v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z" />
+    <path d="M14 4v4h4" />
+    {/* Page count: # */}
+    <path d="M8 11h6M8 14h6M10 9v8M12 9v8" strokeOpacity="0.7" />
+  </svg>
+);
+
+export const PdfMetadataIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* PDF document */}
+    <path d="M4 4h10l4 4v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z" />
+    <path d="M14 4v4h4" />
+    {/* Info lines */}
+    <path d="M8 12h7M8 15h5M8 18h6" strokeOpacity="0.7" />
+    {/* Info circle */}
+    <circle cx="18" cy="18" r="4" />
+    <path d="M18 17v3" />
+    <circle cx="18" cy="15.5" r="0.5" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+export const TextDiffIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Two columns */}
+    <rect x="1" y="3" width="9.5" height="18" rx="1.5" />
+    <rect x="13.5" y="3" width="9.5" height="18" rx="1.5" />
+    {/* Removed line (left, red-ish) */}
+    <line x1="3" y1="8" x2="9" y2="8" />
+    <line x1="3" y1="11" x2="7" y2="11" strokeOpacity="0.4" />
+    <line x1="3" y1="14" x2="9" y2="14" />
+    {/* Added line (right, green-ish) */}
+    <line x1="15.5" y1="8" x2="21.5" y2="8" />
+    <line x1="15.5" y1="11" x2="21.5" y2="11" />
+    <line x1="15.5" y1="14" x2="19" y2="14" strokeOpacity="0.4" />
+    {/* +/- badges */}
+    <path d="M7 16.5H9M8 15.5v2" strokeOpacity="0.8" strokeWidth="1.2" />
+    <path d="M16.5 18H18.5" strokeOpacity="0.8" strokeWidth="1.2" />
+  </svg>
+);
+
+export const MarkdownToHtmlIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Markdown M↓ symbol */}
+    <rect x="1" y="5" width="10" height="14" rx="1.5" />
+    <path d="M3.5 15V9l2.5 3 2.5-3v6" strokeOpacity="0.9" />
+    <path d="M4 17l1.5-1.5" strokeOpacity="0.5" />
+    {/* Arrow */}
+    <path d="M12.5 12h3" />
+    <path d="M14 10.5l2 1.5-2 1.5" />
+    {/* HTML brackets */}
+    <path d="M17 7l-1.5 5 1.5 5" strokeOpacity="0.7" />
+    <path d="M20 7l1.5 5-1.5 5" strokeOpacity="0.7" />
+    <path d="M17.5 12h3" strokeOpacity="0.4" />
+  </svg>
+);
+
+export const JsMinifierIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Code lines — long */}
+    <line x1="2" y1="5" x2="22" y2="5" />
+    <line x1="2" y1="9" x2="19" y2="9" />
+    <line x1="2" y1="13" x2="22" y2="13" strokeOpacity="0.4" />
+    {/* Compress arrow */}
+    <path d="M9 16l3 3 3-3" />
+    {/* Minified — one short line */}
+    <line x1="4" y1="21" x2="20" y2="21" strokeWidth="2" />
+  </svg>
+);
+
+export const CronGeneratorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Clock */}
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 2" />
+    {/* Repeat arrows around clock */}
+    <path d="M20.5 7A9 9 0 0 0 3.5 7" strokeOpacity="0.5" />
+    <path d="M20.5 7l-1.5-2.5M20.5 7l2.5-1" strokeOpacity="0.5" />
+  </svg>
+);
+
+export const EmiCalculatorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Coins stack */}
+    <ellipse cx="12" cy="7" rx="8" ry="2.5" />
+    <path d="M4 7v3c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5V7" />
+    {/* Declining bar chart — loan paying off */}
+    <path d="M4 20h16" />
+    <rect x="5" y="14" width="3" height="6" rx="0.5" fill="currentColor" strokeOpacity="0" opacity="0.7" />
+    <rect x="10" y="16" width="3" height="4" rx="0.5" fill="currentColor" strokeOpacity="0" opacity="0.5" />
+    <rect x="15" y="18" width="3" height="2" rx="0.5" fill="currentColor" strokeOpacity="0" opacity="0.3" />
+  </svg>
+);
+
+export const TimezoneConverterIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Globe */}
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 3c-2.5 2.5-4 5.5-4 9s1.5 6.5 4 9" />
+    <path d="M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9" />
+    <path d="M3 12h18" />
+    {/* Clock overlay */}
+    <circle cx="17" cy="17" r="5" fill="white" stroke="currentColor" />
+    <path d="M17 14.5v2.5l1.5 1" />
+  </svg>
+);
+
+export const RandomNameIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Person silhouette */}
+    <circle cx="12" cy="7" r="3.5" />
+    <path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+    {/* Name tag */}
+    <rect x="8" y="14" width="8" height="5" rx="1" strokeOpacity="0.5" />
+    <line x1="9.5" y1="16.5" x2="14.5" y2="16.5" strokeOpacity="0.5" />
+    {/* Shuffle/random dice */}
+    <path d="M18 3l1.5 1.5-4 4" strokeOpacity="0.6" />
+    <path d="M19.5 3h-2.5M19.5 3v2.5" strokeOpacity="0.6" />
+  </svg>
+);
+
+export const UserAgentParserIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Browser window */}
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="M2 9h20" />
+    <circle cx="5.5" cy="6.5" r="1" fill="currentColor" stroke="none" opacity="0.5" />
+    <circle cx="9" cy="6.5" r="1" fill="currentColor" stroke="none" opacity="0.5" />
+    {/* UA string lines */}
+    <line x1="5" y1="13" x2="19" y2="13" strokeOpacity="0.6" />
+    <line x1="5" y1="16.5" x2="14" y2="16.5" strokeOpacity="0.4" />
+    {/* Magnifier */}
+    <circle cx="17" cy="16" r="2.5" />
+    <path d="M19 17.5l2 2" />
+  </svg>
+);
+
 // ─── Icon map ─────────────────────────────────────────────────────────────────
 // Maps tool.id → SVG icon component.
 // Tools not listed here fall back to tool.icon emoji (handled in ToolCard).
@@ -820,4 +987,17 @@ export const ICON_MAP = {
   'robots-generator':       RobotsGeneratorIcon,
   'keyword-density':        KeywordDensityIcon,
   'sitemap-generator':      SitemapGeneratorIcon,
+  // Phase 5 — Batch 5 (12 new tools)
+  'image-crop':             ImageCropToolIcon,
+  'svg-optimizer':          SvgOptimizerIcon,
+  'pdf-page-counter':       PdfPageCounterIcon,
+  'pdf-metadata':           PdfMetadataIcon,
+  'text-diff':              TextDiffIcon,
+  'markdown-to-html':       MarkdownToHtmlIcon,
+  'js-minifier':            JsMinifierIcon,
+  'cron-generator':         CronGeneratorIcon,
+  'emi-calculator':         EmiCalculatorIcon,
+  'timezone-converter':     TimezoneConverterIcon,
+  'random-name':            RandomNameIcon,
+  'user-agent-parser':      UserAgentParserIcon,
 };

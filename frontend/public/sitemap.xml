@@ -13,24 +13,24 @@
   <url><loc>https://tooli.app/tools/resize-image</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://tooli.app/tools/convert-image</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://tooli.app/tools/base64-image</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tooli.app/tools/image-crop</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://tooli.app/tools/svg-optimizer</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/image-crop</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tooli.app/tools/svg-optimizer</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- PDF Tools -->
   <url><loc>https://tooli.app/tools/merge-pdfs</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://tooli.app/tools/split-pdf</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://tooli.app/tools/image-to-pdf</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://tooli.app/tools/pdf-page-counter</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://tooli.app/tools/pdf-metadata</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/pdf-page-counter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tooli.app/tools/pdf-metadata</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- Text Tools -->
   <url><loc>https://tooli.app/tools/word-counter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/slug-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/text-case-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/lorem-ipsum</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tooli.app/tools/text-diff</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/text-diff</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/duplicate-line-remover</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tooli.app/tools/markdown-to-html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/markdown-to-html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/html-to-text</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/email-extractor</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
@@ -49,8 +49,8 @@
   <url><loc>https://tooli.app/tools/csv-to-json</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/binary-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/roman-numeral</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tooli.app/tools/js-minifier</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://tooli.app/tools/cron-generator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/js-minifier</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tooli.app/tools/cron-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- SEO Tools -->
   <url><loc>https://tooli.app/tools/meta-tag-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -70,16 +70,16 @@
   <url><loc>https://tooli.app/tools/age-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/bmi-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/percentage-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tooli.app/tools/emi-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/emi-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/tip-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- Utility Tools -->
   <url><loc>https://tooli.app/tools/qr-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/unit-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tooli.app/tools/timezone-converter</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/timezone-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/random-number</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tooli.app/tools/random-name</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://tooli.app/tools/user-agent-parser</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/random-name</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tooli.app/tools/user-agent-parser</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/color-palette</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/aspect-ratio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/countdown-timer</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
