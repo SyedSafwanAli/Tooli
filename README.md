@@ -1,7 +1,7 @@
 # Tooli — Production-Ready MERN Tools Website
 
 > 60 free online tools · 8 categories · No database required · Admin dashboard · Revenue tracking · Analytics · SEO-optimised
-> **43 tools built · 17 coming soon**
+> **48 tools built · 12 coming soon**
 
 ---
 
@@ -155,7 +155,7 @@ tooli/
             │
             ├── Guides.jsx               ← /guides listing with category filter
             ├── GuideDetail.jsx          ← /guides/:slug article renderer
-            └── tools/                   ← 43 built tool pages (+ ComingSoon.jsx catch-all)
+            └── tools/                   ← 48 built tool pages (+ ComingSoon.jsx catch-all)
                 ├── ImageCompressor.jsx, ImageResizer.jsx, ImageConverter.jsx
                 ├── PdfMerger.jsx, PdfSplitter.jsx, ImageToPdf.jsx
                 ├── WordCounter.jsx, SlugGenerator.jsx, TextCaseConverter.jsx
@@ -180,7 +180,7 @@ tooli/
 > - ✅ **Built** — full UI, SEO content, JSON-LD schemas, working in production
 > - 🚧 **Coming Soon** — listed in `TOOLS`, routed to `ComingSoon.jsx`, indexed in sitemap
 
-**43 built · 17 coming soon**
+**48 built · 12 coming soon**
 
 ### Backend-Powered Tools (Node.js + Sharp / pdf-lib)
 
@@ -285,13 +285,13 @@ All 6 backend tools are fully built.
 
 ### Coming Soon — Build Priority
 
-The 17 unbuilt tools are grouped below by estimated build complexity (all frontend-only):
+The 12 unbuilt tools are grouped below by estimated build complexity (all frontend-only):
 
 | Priority | Tools |
 |----------|-------|
 | **Quick wins** (< 1 hour each) | ~~CSV to JSON~~, ~~Number Base Converter~~, ~~Roman Numeral Converter~~, ~~Duplicate Line Remover~~, ~~HTML to Plain Text~~, ~~Random Number Generator~~, ~~Aspect Ratio Calculator~~, ~~Countdown Timer~~, ~~Password Strength Checker~~, ~~UUID Validator~~, ~~Age Calculator~~, ~~Percentage Calculator~~, ~~Tip Calculator~~ |
 | **Medium** (1–3 hours each) | Text Diff Checker, Markdown to HTML, ~~Email Extractor~~, JS/CSS Minifier, ~~Hash Compare Tool~~, ~~BMI Calculator~~, EMI/Loan Calculator, Timezone Converter, Random Name Generator, User Agent Parser, ~~Base64 Image Encoder~~ |
-| **Larger scope** (3+ hours each) | Image Crop Tool, SVG Optimizer, PDF Page Counter, PDF Metadata Viewer, Meta Tag Generator, Open Graph Generator, Robots.txt Generator, Keyword Density Checker, Sitemap Generator, Cron Expression Generator |
+| **Larger scope** (3+ hours each) | Image Crop Tool, SVG Optimizer, PDF Page Counter, PDF Metadata Viewer, ~~Meta Tag Generator~~, ~~Open Graph Generator~~, ~~Robots.txt Generator~~, ~~Keyword Density Checker~~, ~~Sitemap Generator~~, Cron Expression Generator |
 
 ---
 
@@ -319,7 +319,7 @@ Every tool page now includes:
 - **JSON-LD structured data** — `WebApplication` + `FAQPage` schemas injected via `useSEO` and cleaned up on unmount
 
 ### `Icons.jsx`
-Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="none"`) for 43 tools (Phase 2 + Phase 4 + Phase 5):
+Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="none"`) for 48 tools (Phase 2 + Phase 4 + Phase 5):
 
 **Phase 2 originals (15):** `CompressImageIcon`, `ResizeImageIcon`, `ConvertImageIcon`, `MergePdfIcon`, `SplitPdfIcon`, `ImageToPdfIcon`, `WordCounterIcon`, `JsonFormatterIcon`, `Base64Icon`, `UrlEncoderIcon`, `PasswordGeneratorIcon`, `ColorConverterIcon`, `HashGeneratorIcon`, `QrGeneratorIcon`, `UnitConverterIcon`
 
@@ -330,6 +330,8 @@ Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="
 **Phase 5 Batch 2 additions (5):** `RandomNumberIcon`, `AspectRatioIcon`, `CountdownTimerIcon`, `PasswordStrengthIcon`, `UuidValidatorIcon`
 
 **Phase 5 Batch 3 additions (7):** `AgeCalculatorIcon`, `PercentageCalculatorIcon`, `TipCalculatorIcon`, `BmiCalculatorIcon`, `HashCompareIcon`, `EmailExtractorIcon`, `Base64ImageIcon`
+
+**Phase 5 Batch 4 additions (5):** `MetaTagGeneratorIcon`, `OgGeneratorIcon`, `RobotsGeneratorIcon`, `KeywordDensityIcon`, `SitemapGeneratorIcon`
 
 **Common UI (10):** `UploadIcon`, `SearchIcon`, `DownloadIcon`, `CopyIcon`, `CheckIcon`, `SparklesIcon`, `ArrowRightIcon`, `ShieldCheckIcon`, `ZapIcon`, `GlobeIcon`
 
@@ -652,6 +654,18 @@ All 5 tools follow the `ToolLayout + seoContent + useSEO + ResultActions` patter
 
 ---
 
+### Phase 5 Batch 4 — 5 SEO Tools ✅
+
+| Tool | Route | Key Logic | Icon |
+|------|-------|-----------|------|
+| **Meta Tag Generator** | `/tools/meta-tag-generator` | Title/description char-count feedback (optimal 50–60/150–160); robots index/follow toggles; canonical + author fields; live HTML output | `MetaTagGeneratorIcon` |
+| **Open Graph Generator** | `/tools/og-generator` | Full OG + Twitter Card tag set; article-specific fields (author, published_time, section); live social preview card; website/article/product type selector | `OgGeneratorIcon` |
+| **Robots.txt Generator** | `/tools/robots-generator` | Visual rule builder (user-agent + directive + path); common bot presets (Googlebot, Bingbot, GPTBot, CCBot); sitemap URL + crawl-delay fields; download as robots.txt | `RobotsGeneratorIcon` |
+| **Keyword Density Checker** | `/tools/keyword-density` | Word tokeniser; stop-word filter toggle; frequency table with % density + relative bar; target keyword lookup; "show more" pagination | `KeywordDensityIcon` |
+| **XML Sitemap Generator** | `/tools/sitemap-generator` | Bulk URL paste → parse step → per-URL changefreq/priority overrides; URL validation; ISO lastmod date; download as sitemap.xml | `SitemapGeneratorIcon` |
+
+---
+
 ### AI Stock Image Platform & Blog — Architecture (Not Yet Built)
 
 #### AI Stock (`/stock`) — External dependencies required
@@ -873,7 +887,7 @@ Then update `backend/src/config/index.js` to select the adapter based on `NODE_E
 
 - Dynamic `<title>`, `<meta description>`, OG tags, Twitter card tags, and `<link rel="canonical">` per page via `useSEO()` hook
 - **JSON-LD structured data** — `WebApplication` + `FAQPage` + `BreadcrumbList` schemas on every tool page
-- SEO content sections on all 43 built tool pages: about / how-to steps / features / FAQ
+- SEO content sections on all 48 built tool pages: about / how-to steps / features / FAQ
 - Related Tools section (up to 6) auto-generated in `ToolLayout` — same category prioritised for better internal linking
 - Rich SEO footer — 4 descriptive paragraphs + per-category tool listings with tech details
 - `frontend/public/robots.txt` — blocks `/admin/` and `/api/` from all crawlers; includes sitemap URL
@@ -961,7 +975,7 @@ postcss            ^8.4.39   — CSS processing
 
 6. **File Cleanup** — All uploaded files are deleted in `finally` blocks after processing. No disk accumulation regardless of success or error.
 
-7. **Frontend-Only Tools** — 37 of 43 built tools run entirely in the browser. Faster, more private, work offline after initial page load.
+7. **Frontend-Only Tools** — 42 of 48 built tools run entirely in the browser. Faster, more private, work offline after initial page load.
 
 8. **Web Crypto API** — Password Generator uses `crypto.getRandomValues` (CSPRNG) and Hash Generator uses `crypto.subtle.digest`. No external crypto library needed.
 

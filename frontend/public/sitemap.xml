@@ -55,9 +55,9 @@
   <!-- SEO Tools -->
   <url><loc>https://tooli.app/tools/meta-tag-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tooli.app/tools/og-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tooli.app/tools/robots-generator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://tooli.app/tools/keyword-density</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://tooli.app/tools/sitemap-generator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tooli.app/tools/robots-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tooli.app/tools/keyword-density</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tooli.app/tools/sitemap-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- Security Tools -->
   <url><loc>https://tooli.app/tools/password-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

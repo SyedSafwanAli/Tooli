@@ -77,6 +77,13 @@ const EmailExtractor = lazy(() => import('../pages/tools/EmailExtractor'));
 // ── Image Tools (Batch 3) ─────────────────────────────────────────────────────
 const Base64Image    = lazy(() => import('../pages/tools/Base64Image'));
 
+// ── SEO Tools (Batch 4) ───────────────────────────────────────────────────────
+const MetaTagGenerator = lazy(() => import('../pages/tools/MetaTagGenerator'));
+const OgGenerator      = lazy(() => import('../pages/tools/OgGenerator'));
+const RobotsGenerator  = lazy(() => import('../pages/tools/RobotsGenerator'));
+const KeywordDensity   = lazy(() => import('../pages/tools/KeywordDensity'));
+const SitemapGenerator = lazy(() => import('../pages/tools/SitemapGenerator'));
+
 // ── Utility / Security / Developer Tools (Batch 2) ───────────────────────────
 const RandomNumber          = lazy(() => import('../pages/tools/RandomNumber'));
 const AspectRatio           = lazy(() => import('../pages/tools/AspectRatio'));
@@ -147,8 +154,12 @@ export const router = createBrowserRouter([
       { path: 'tools/uuid-validator',     element: wrap(UuidValidator) },
       { path: 'tools/hash-compare',       element: wrap(HashCompare) },
 
-      // ── SEO Tools (all 5 coming soon) ────────────────────────────────────
-      // coming soon: meta-tag-generator, og-generator, robots-generator, keyword-density, sitemap-generator
+      // ── SEO Tools (5 built) ──────────────────────────────────────────────
+      { path: 'tools/meta-tag-generator', element: wrap(MetaTagGenerator) },
+      { path: 'tools/og-generator',       element: wrap(OgGenerator) },
+      { path: 'tools/robots-generator',   element: wrap(RobotsGenerator) },
+      { path: 'tools/keyword-density',    element: wrap(KeywordDensity) },
+      { path: 'tools/sitemap-generator',  element: wrap(SitemapGenerator) },
 
       // ── Calculator Tools (4 built + 1 coming soon) ───────────────────────
       { path: 'tools/age-calculator',        element: wrap(AgeCalculator) },

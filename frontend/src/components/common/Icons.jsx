@@ -703,6 +703,65 @@ export const Base64ImageIcon = ({ className = 'w-6 h-6' }) => (
   </svg>
 );
 
+// ─── Phase 5 Batch 4 — SEO Icons ─────────────────────────────────────────────
+
+export const MetaTagGeneratorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* HTML tag lines */}
+    <path d="M3 7h18M3 12h18M3 17h12" />
+    <path d="M17 14l2 3-2 3" />
+    <path d="M21 14l-2 3 2 3" strokeOpacity="0.5" />
+  </svg>
+);
+
+export const OgGeneratorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Link preview card */}
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <rect x="4" y="6" width="9" height="7" rx="1" strokeOpacity="0.6" />
+    <path d="M15 8h4M15 11h4" strokeOpacity="0.6" />
+    <path d="M4 16h16" strokeOpacity="0.4" />
+  </svg>
+);
+
+export const RobotsGeneratorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Robot head */}
+    <rect x="4" y="7" width="16" height="11" rx="2" />
+    <circle cx="9" cy="12" r="1.5" />
+    <circle cx="15" cy="12" r="1.5" />
+    <path d="M9 16h6" />
+    <path d="M12 7V4" />
+    <circle cx="12" cy="3.5" r="1" />
+    <path d="M4 11H2M20 11h2" />
+  </svg>
+);
+
+export const KeywordDensityIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    <path d="M3 20h18" />
+    <rect x="4" y="14" width="3" height="6" rx="0.5" />
+    <rect x="9" y="9" width="3" height="11" rx="0.5" />
+    <rect x="14" y="5" width="3" height="15" rx="0.5" />
+    <circle cx="19" cy="5" r="2.5" />
+    <path d="M20.5 7l2 2" />
+  </svg>
+);
+
+export const SitemapGeneratorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    <circle cx="12" cy="4" r="2" />
+    <path d="M12 6v3M12 9H6M12 9h6" />
+    <circle cx="6" cy="14" r="2" />
+    <path d="M6 12v-3" />
+    <circle cx="18" cy="14" r="2" />
+    <path d="M18 12v-3" />
+    <path d="M6 16v2M18 16v2" strokeOpacity="0.5" />
+    <circle cx="6" cy="19.5" r="1.5" strokeOpacity="0.5" />
+    <circle cx="18" cy="19.5" r="1.5" strokeOpacity="0.5" />
+  </svg>
+);
+
 // ─── Icon map ─────────────────────────────────────────────────────────────────
 // Maps tool.id → SVG icon component.
 // Tools not listed here fall back to tool.icon emoji (handled in ToolCard).
@@ -755,4 +814,10 @@ export const ICON_MAP = {
   'hash-compare':           HashCompareIcon,
   'email-extractor':        EmailExtractorIcon,
   'base64-image':           Base64ImageIcon,
+  // Phase 5 — Batch 4 (SEO)
+  'meta-tag-generator':     MetaTagGeneratorIcon,
+  'og-generator':           OgGeneratorIcon,
+  'robots-generator':       RobotsGeneratorIcon,
+  'keyword-density':        KeywordDensityIcon,
+  'sitemap-generator':      SitemapGeneratorIcon,
 };
