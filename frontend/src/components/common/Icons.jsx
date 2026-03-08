@@ -620,6 +620,89 @@ export const UuidValidatorIcon = ({ className = 'w-6 h-6' }) => (
   </svg>
 );
 
+// ─── Phase 5 Batch 3 Icons ────────────────────────────────────────────────────
+
+export const AgeCalculatorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Calendar */}
+    <rect x="2" y="4" width="20" height="18" rx="2" />
+    <path d="M2 9h20" />
+    <path d="M7 2v4M17 2v4" />
+    {/* Cake candle */}
+    <path d="M12 13v2" />
+    <path d="M9 15h6" />
+    <path d="M10 19h4" />
+    <circle cx="12" cy="12.5" r="0.5" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+export const PercentageCalculatorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Percent symbol */}
+    <circle cx="8" cy="8" r="2.5" />
+    <circle cx="16" cy="16" r="2.5" />
+    <path d="M6 18L18 6" />
+  </svg>
+);
+
+export const TipCalculatorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Receipt */}
+    <path d="M6 2h12a1 1 0 011 1v18l-2.5-2-2.5 2-2.5-2L9 21l-2.5 2V3a1 1 0 011-1z" />
+    <path d="M9 7h6M9 11h6M9 15h4" />
+  </svg>
+);
+
+export const BmiCalculatorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Person */}
+    <circle cx="12" cy="5" r="2" />
+    <path d="M12 9v6" />
+    <path d="M9 11h6" />
+    <path d="M10 15l-2 4M14 15l2 4" />
+    {/* Scale base */}
+    <path d="M4 21h16" />
+    <path d="M8 21v-1.5a4 4 0 018 0V21" strokeOpacity="0.5" />
+  </svg>
+);
+
+export const HashCompareIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Hash A */}
+    <path d="M4 9h7M4 13h7M7 6v10" />
+    <path d="M9 6v10" />
+    {/* VS divider */}
+    <path d="M12 4v16" strokeOpacity="0.25" />
+    {/* Hash B */}
+    <path d="M13 9h7M13 13h7M16 6v10" />
+    <path d="M18 6v10" />
+    {/* Equal check */}
+    <path d="M19 3l2 2-7 7" strokeOpacity="0.6" strokeWidth="1" />
+  </svg>
+);
+
+export const EmailExtractorIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Envelope */}
+    <rect x="2" y="5" width="15" height="11" rx="1.5" />
+    <path d="M2 7l7.5 5L17 7" />
+    {/* Magnifier */}
+    <circle cx="18" cy="17" r="3" />
+    <path d="M20.5 19.5l2 2" />
+  </svg>
+);
+
+export const Base64ImageIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Image frame */}
+    <rect x="2" y="3" width="20" height="15" rx="2" />
+    <circle cx="8" cy="8" r="1.5" />
+    <path d="M2 14l5-5 4 4 3-3 6 6" />
+    {/* Code tag overlay */}
+    <path d="M8 21l-2-2 2-2M16 21l2-2-2-2M13 19l-2 2" strokeWidth="1.5" />
+  </svg>
+);
+
 // ─── Icon map ─────────────────────────────────────────────────────────────────
 // Maps tool.id → SVG icon component.
 // Tools not listed here fall back to tool.icon emoji (handled in ToolCard).
@@ -664,4 +747,12 @@ export const ICON_MAP = {
   'countdown-timer':        CountdownTimerIcon,
   'password-strength':      PasswordStrengthIcon,
   'uuid-validator':         UuidValidatorIcon,
+  // Phase 5 — Batch 3
+  'age-calculator':         AgeCalculatorIcon,
+  'percentage-calculator':  PercentageCalculatorIcon,
+  'tip-calculator':         TipCalculatorIcon,
+  'bmi-calculator':         BmiCalculatorIcon,
+  'hash-compare':           HashCompareIcon,
+  'email-extractor':        EmailExtractorIcon,
+  'base64-image':           Base64ImageIcon,
 };

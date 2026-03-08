@@ -1,6 +1,7 @@
 # Tooli — Production-Ready MERN Tools Website
 
 > 60 free online tools · 8 categories · No database required · Admin dashboard · Revenue tracking · Analytics · SEO-optimised
+> **43 tools built · 17 coming soon**
 
 ---
 
@@ -154,7 +155,7 @@ tooli/
             │
             ├── Guides.jsx               ← /guides listing with category filter
             ├── GuideDetail.jsx          ← /guides/:slug article renderer
-            └── tools/                   ← 36 built tool pages (+ ComingSoon.jsx catch-all)
+            └── tools/                   ← 43 built tool pages (+ ComingSoon.jsx catch-all)
                 ├── ImageCompressor.jsx, ImageResizer.jsx, ImageConverter.jsx
                 ├── PdfMerger.jsx, PdfSplitter.jsx, ImageToPdf.jsx
                 ├── WordCounter.jsx, SlugGenerator.jsx, TextCaseConverter.jsx
@@ -179,7 +180,7 @@ tooli/
 > - ✅ **Built** — full UI, SEO content, JSON-LD schemas, working in production
 > - 🚧 **Coming Soon** — listed in `TOOLS`, routed to `ComingSoon.jsx`, indexed in sitemap
 
-**36 built · 24 coming soon**
+**43 built · 17 coming soon**
 
 ### Backend-Powered Tools (Node.js + Sharp / pdf-lib)
 
@@ -284,12 +285,12 @@ All 6 backend tools are fully built.
 
 ### Coming Soon — Build Priority
 
-The 24 unbuilt tools are grouped below by estimated build complexity (all frontend-only):
+The 17 unbuilt tools are grouped below by estimated build complexity (all frontend-only):
 
 | Priority | Tools |
 |----------|-------|
-| **Quick wins** (< 1 hour each) | ~~CSV to JSON~~, ~~Number Base Converter~~, ~~Roman Numeral Converter~~, ~~Duplicate Line Remover~~, ~~HTML to Plain Text~~, ~~Random Number Generator~~, ~~Aspect Ratio Calculator~~, ~~Countdown Timer~~, ~~Password Strength Checker~~, ~~UUID Validator~~, Age Calculator, Percentage Calculator, Tip Calculator |
-| **Medium** (1–3 hours each) | Text Diff Checker, Markdown to HTML, Email Extractor, JS/CSS Minifier, Hash Compare Tool, BMI Calculator, EMI/Loan Calculator, Timezone Converter, Random Name Generator, User Agent Parser, Base64 Image Encoder |
+| **Quick wins** (< 1 hour each) | ~~CSV to JSON~~, ~~Number Base Converter~~, ~~Roman Numeral Converter~~, ~~Duplicate Line Remover~~, ~~HTML to Plain Text~~, ~~Random Number Generator~~, ~~Aspect Ratio Calculator~~, ~~Countdown Timer~~, ~~Password Strength Checker~~, ~~UUID Validator~~, ~~Age Calculator~~, ~~Percentage Calculator~~, ~~Tip Calculator~~ |
+| **Medium** (1–3 hours each) | Text Diff Checker, Markdown to HTML, ~~Email Extractor~~, JS/CSS Minifier, ~~Hash Compare Tool~~, ~~BMI Calculator~~, EMI/Loan Calculator, Timezone Converter, Random Name Generator, User Agent Parser, ~~Base64 Image Encoder~~ |
 | **Larger scope** (3+ hours each) | Image Crop Tool, SVG Optimizer, PDF Page Counter, PDF Metadata Viewer, Meta Tag Generator, Open Graph Generator, Robots.txt Generator, Keyword Density Checker, Sitemap Generator, Cron Expression Generator |
 
 ---
@@ -318,7 +319,7 @@ Every tool page now includes:
 - **JSON-LD structured data** — `WebApplication` + `FAQPage` schemas injected via `useSEO` and cleaned up on unmount
 
 ### `Icons.jsx`
-Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="none"`) for 36 tools (Phase 2 + Phase 4 + Phase 5):
+Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="none"`) for 43 tools (Phase 2 + Phase 4 + Phase 5):
 
 **Phase 2 originals (15):** `CompressImageIcon`, `ResizeImageIcon`, `ConvertImageIcon`, `MergePdfIcon`, `SplitPdfIcon`, `ImageToPdfIcon`, `WordCounterIcon`, `JsonFormatterIcon`, `Base64Icon`, `UrlEncoderIcon`, `PasswordGeneratorIcon`, `ColorConverterIcon`, `HashGeneratorIcon`, `QrGeneratorIcon`, `UnitConverterIcon`
 
@@ -327,6 +328,8 @@ Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="
 **Phase 5 Batch 1 additions (6):** `ColorPaletteIcon`, `CsvToJsonIcon`, `BinaryConverterIcon`, `RomanNumeralIcon`, `DuplicateLineRemoverIcon`, `HtmlToTextIcon`
 
 **Phase 5 Batch 2 additions (5):** `RandomNumberIcon`, `AspectRatioIcon`, `CountdownTimerIcon`, `PasswordStrengthIcon`, `UuidValidatorIcon`
+
+**Phase 5 Batch 3 additions (7):** `AgeCalculatorIcon`, `PercentageCalculatorIcon`, `TipCalculatorIcon`, `BmiCalculatorIcon`, `HashCompareIcon`, `EmailExtractorIcon`, `Base64ImageIcon`
 
 **Common UI (10):** `UploadIcon`, `SearchIcon`, `DownloadIcon`, `CopyIcon`, `CheckIcon`, `SparklesIcon`, `ArrowRightIcon`, `ShieldCheckIcon`, `ZapIcon`, `GlobeIcon`
 
@@ -635,6 +638,20 @@ All 5 tools follow the `ToolLayout + seoContent + useSEO + ResultActions` patter
 
 ---
 
+### Phase 5 Batch 3 — 7 New Frontend Tools ✅
+
+| Tool | Route | Key Logic | Icon |
+|------|-------|-----------|------|
+| **Age Calculator** | `/tools/age-calculator` | Pure `Date` arithmetic; years/months/days decomposition; birth day-of-week; next birthday countdown; "as of" custom date | `AgeCalculatorIcon` |
+| **Percentage Calculator** | `/tools/percentage-calculator` | Three modes: X% of Y · X is what % of Y · % change X→Y; formula display; `useMemo` per mode | `PercentageCalculatorIcon` |
+| **Tip Calculator** | `/tools/tip-calculator` | Preset buttons (10/15/18/20/25%) + slider (0–30%); per-person split stepper (1–20); tip/total/per-person output | `TipCalculatorIcon` |
+| **BMI Calculator** | `/tools/bmi-calculator` | Metric (kg/cm) and Imperial (lbs/ft+in) with unit conversion; WHO category thresholds; color-coded scale bar with needle | `BmiCalculatorIcon` |
+| **Hash Compare Tool** | `/tools/hash-compare` | Case-insensitive trim comparison; character diff highlight; on-the-fly SHA-256/SHA-512 generation via `crypto.subtle.digest`; copy → Hash A/B buttons | `HashCompareIcon` |
+| **Email Extractor** | `/tools/email-extractor` | RFC 5322 email regex; `Set`-based dedup; alphabetical sort; per-email copy; copy-all via `ResultActions` | `EmailExtractorIcon` |
+| **Base64 Image Encoder** | `/tools/base64-image` | Encode: `FileReader.readAsDataURL()` → data URI + preview; Decode: paste data URI → `<img>` preview + download via anchor | `Base64ImageIcon` |
+
+---
+
 ### AI Stock Image Platform & Blog — Architecture (Not Yet Built)
 
 #### AI Stock (`/stock`) — External dependencies required
@@ -856,7 +873,7 @@ Then update `backend/src/config/index.js` to select the adapter based on `NODE_E
 
 - Dynamic `<title>`, `<meta description>`, OG tags, Twitter card tags, and `<link rel="canonical">` per page via `useSEO()` hook
 - **JSON-LD structured data** — `WebApplication` + `FAQPage` + `BreadcrumbList` schemas on every tool page
-- SEO content sections on all 36 built tool pages: about / how-to steps / features / FAQ
+- SEO content sections on all 43 built tool pages: about / how-to steps / features / FAQ
 - Related Tools section (up to 6) auto-generated in `ToolLayout` — same category prioritised for better internal linking
 - Rich SEO footer — 4 descriptive paragraphs + per-category tool listings with tech details
 - `frontend/public/robots.txt` — blocks `/admin/` and `/api/` from all crawlers; includes sitemap URL
@@ -944,7 +961,7 @@ postcss            ^8.4.39   — CSS processing
 
 6. **File Cleanup** — All uploaded files are deleted in `finally` blocks after processing. No disk accumulation regardless of success or error.
 
-7. **Frontend-Only Tools** — 30 of 36 built tools run entirely in the browser. Faster, more private, work offline after initial page load.
+7. **Frontend-Only Tools** — 37 of 43 built tools run entirely in the browser. Faster, more private, work offline after initial page load.
 
 8. **Web Crypto API** — Password Generator uses `crypto.getRandomValues` (CSPRNG) and Hash Generator uses `crypto.subtle.digest`. No external crypto library needed.
 

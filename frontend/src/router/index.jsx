@@ -62,6 +62,21 @@ const RomanNumeral      = lazy(() => import('../pages/tools/RomanNumeral'));
 const DuplicateLineRemover = lazy(() => import('../pages/tools/DuplicateLineRemover'));
 const HtmlToText           = lazy(() => import('../pages/tools/HtmlToText'));
 
+// ── Calculator Tools ─────────────────────────────────────────────────────────
+const AgeCalculator        = lazy(() => import('../pages/tools/AgeCalculator'));
+const PercentageCalculator = lazy(() => import('../pages/tools/PercentageCalculator'));
+const TipCalculator        = lazy(() => import('../pages/tools/TipCalculator'));
+const BmiCalculator        = lazy(() => import('../pages/tools/BmiCalculator'));
+
+// ── Security Tools (Batch 3) ──────────────────────────────────────────────────
+const HashCompare    = lazy(() => import('../pages/tools/HashCompare'));
+
+// ── Text Tools (Batch 3) ──────────────────────────────────────────────────────
+const EmailExtractor = lazy(() => import('../pages/tools/EmailExtractor'));
+
+// ── Image Tools (Batch 3) ─────────────────────────────────────────────────────
+const Base64Image    = lazy(() => import('../pages/tools/Base64Image'));
+
 // ── Utility / Security / Developer Tools (Batch 2) ───────────────────────────
 const RandomNumber          = lazy(() => import('../pages/tools/RandomNumber'));
 const AspectRatio           = lazy(() => import('../pages/tools/AspectRatio'));
@@ -89,7 +104,8 @@ export const router = createBrowserRouter([
       { path: 'tools/compress-image', element: wrap(ImageCompressor) },
       { path: 'tools/resize-image',   element: wrap(ImageResizer) },
       { path: 'tools/convert-image',  element: wrap(ImageConverter) },
-      // coming soon: base64-image, image-crop, svg-optimizer
+      { path: 'tools/base64-image',   element: wrap(Base64Image) },
+      // coming soon: image-crop, svg-optimizer
 
       // ── PDF Tools (3 built + 2 coming soon) ──────────────────────────────
       { path: 'tools/merge-pdfs',   element: wrap(PdfMerger) },
@@ -103,8 +119,9 @@ export const router = createBrowserRouter([
       { path: 'tools/text-case-converter', element: wrap(TextCaseConverter) },
       { path: 'tools/lorem-ipsum',             element: wrap(LoremIpsumGenerator) },
       { path: 'tools/duplicate-line-remover',  element: wrap(DuplicateLineRemover) },
-      { path: 'tools/html-to-text',             element: wrap(HtmlToText) },
-      // coming soon: text-diff, markdown-to-html, email-extractor
+      { path: 'tools/html-to-text',            element: wrap(HtmlToText) },
+      { path: 'tools/email-extractor',         element: wrap(EmailExtractor) },
+      // coming soon: text-diff, markdown-to-html
 
       // ── Developer Tools (11 built + 5 coming soon) ───────────────────────
       { path: 'tools/json-formatter',      element: wrap(JsonFormatter) },
@@ -123,18 +140,22 @@ export const router = createBrowserRouter([
       { path: 'tools/roman-numeral',        element: wrap(RomanNumeral) },
       // coming soon: js-minifier, cron-generator
 
-      // ── Security Tools (4 built + 1 coming soon) ─────────────────────────
+      // ── Security Tools (5 built) ──────────────────────────────────────────
       { path: 'tools/password-generator', element: wrap(PasswordGenerator) },
       { path: 'tools/hash-generator',     element: wrap(HashGenerator) },
       { path: 'tools/password-strength',  element: wrap(PasswordStrengthChecker) },
       { path: 'tools/uuid-validator',     element: wrap(UuidValidator) },
-      // coming soon: hash-compare
+      { path: 'tools/hash-compare',       element: wrap(HashCompare) },
 
       // ── SEO Tools (all 5 coming soon) ────────────────────────────────────
       // coming soon: meta-tag-generator, og-generator, robots-generator, keyword-density, sitemap-generator
 
-      // ── Calculator Tools (all 5 coming soon) ─────────────────────────────
-      // coming soon: age-calculator, bmi-calculator, percentage-calculator, emi-calculator, tip-calculator
+      // ── Calculator Tools (4 built + 1 coming soon) ───────────────────────
+      { path: 'tools/age-calculator',        element: wrap(AgeCalculator) },
+      { path: 'tools/percentage-calculator', element: wrap(PercentageCalculator) },
+      { path: 'tools/tip-calculator',        element: wrap(TipCalculator) },
+      { path: 'tools/bmi-calculator',        element: wrap(BmiCalculator) },
+      // coming soon: emi-calculator
 
       // ── Utility Tools (2 built + 7 coming soon) ──────────────────────────
       { path: 'tools/qr-generator',     element: wrap(QrGenerator) },
