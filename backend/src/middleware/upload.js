@@ -68,4 +68,18 @@ const uploadMultiImage = multer({
   fileFilter: imageFilter,
 });
 
-module.exports = { uploadImage, uploadPDF, uploadMultiPDF, uploadImageOrPDF, uploadMultiImage };
+const markdownFilter = (req, file, cb) => {
+  const ext = path.extname(file.originalname).toLowerCase();
+  const ok  = ['.md', '.markdown', '.txt'].includes(ext)
+    || file.mimetype.startsWith('text/');
+  if (ok) cb(null, true);
+  else cb(new Error('Only Markdown (.md) or plain-text files are allowed'));
+};
+
+const uploadMarkdown = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: markdownFilter,
+});
+
+module.exports = { uploadImage, uploadPDF, uploadMultiPDF, uploadImageOrPDF, uploadMultiImage, uploadMarkdown };

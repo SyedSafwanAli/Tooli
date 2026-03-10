@@ -25,8 +25,8 @@ export const resizeImage = (file, { width, height, fit = 'cover', format } = {})
   return api.post('/tools/resize-image', fd, { responseType: 'blob' });
 };
 
-export const convertImage = (file, format, quality = 90) => {
-  const fd = buildFormData({ image: file, format, quality });
+export const convertImage = (file, format, quality = 90, { width, height, fit, rotate, flipH, flipV } = {}) => {
+  const fd = buildFormData({ image: file, format, quality, width, height, fit, rotate, flipH, flipV });
   return api.post('/tools/convert-image', fd, { responseType: 'blob' });
 };
 

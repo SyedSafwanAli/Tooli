@@ -95,23 +95,51 @@ async function resizeImage(filePath, { width, height, fit = 'cover', format } = 
 }
 
 /**
- * Converts image to a different format.
+ * Converts image to a different format with optional resize, rotate, flip.
+ * Supported output: jpeg, png, webp, avif, tiff, gif
  */
-async function convertImage(filePath, { format = 'webp', quality = 90 } = {}) {
+async function convertImage(filePath, {
+  format   = 'webp',
+  quality  = 90,
+  width,
+  height,
+  fit      = 'inside',
+  rotate   = 0,
+  flipH    = false,
+  flipV    = false,
+} = {}) {
   await recordToolUse('convert-image').catch(() => {});
 
   const inputBuffer = await fs.readFile(filePath);
-  const q = Math.min(100, Math.max(1, parseInt(quality)));
+  const q = Math.min(100, Math.max(1, parseInt(quality) || 90));
+  const deg = parseInt(rotate) || 0;
 
-  let pipeline = sharp(inputBuffer);
+  // Animated GIF support
+  const animated = format === 'gif';
+  let pipeline = sharp(inputBuffer, { animated });
 
+  // 1. Resize (if requested)
+  const w = width  ? parseInt(width)  : undefined;
+  const h = height ? parseInt(height) : undefined;
+  if (w || h) {
+    pipeline = pipeline.resize(w, h, { fit: fit || 'inside', withoutEnlargement: false });
+  }
+
+  // 2. Rotate
+  if (deg) pipeline = pipeline.rotate(deg);
+
+  // 3. Flip
+  if (flipH) pipeline = pipeline.flop();   // horizontal flip
+  if (flipV) pipeline = pipeline.flip();   // vertical flip
+
+  // 4. Output format
   switch (format) {
     case 'jpeg':
     case 'jpg':
-      pipeline = pipeline.jpeg({ quality: q });
+      pipeline = pipeline.jpeg({ quality: q, mozjpeg: true });
       break;
     case 'png':
-      pipeline = pipeline.png();
+      pipeline = pipeline.png({ compressionLevel: Math.round((100 - q) / 11) });
       break;
     case 'webp':
       pipeline = pipeline.webp({ quality: q });
@@ -122,21 +150,25 @@ async function convertImage(filePath, { format = 'webp', quality = 90 } = {}) {
     case 'tiff':
       pipeline = pipeline.tiff({ quality: q });
       break;
+    case 'gif':
+      pipeline = pipeline.gif();
+      break;
     default:
-      throw Object.assign(new Error(`Unsupported format: ${format}`), { statusCode: 400 });
+      throw Object.assign(new Error(`Unsupported output format: ${format}. Supported: jpeg, png, webp, avif, tiff, gif`), { statusCode: 400 });
   }
 
   const outputBuffer = await pipeline.toBuffer();
   const outMeta = await sharp(outputBuffer).metadata();
+  const ext = format === 'jpeg' ? 'jpg' : format;
 
   return {
-    buffer: outputBuffer,
-    mimeType: `image/${format === 'jpg' ? 'jpeg' : format}`,
-    extension: format,
-    width: outMeta.width,
-    height: outMeta.height,
+    buffer:       outputBuffer,
+    mimeType:     format === 'gif' ? 'image/gif' : `image/${format === 'jpg' ? 'jpeg' : format}`,
+    extension:    ext,
+    width:        outMeta.width,
+    height:       outMeta.height,
     originalSize: (await fs.stat(filePath)).size,
-    outputSize: outputBuffer.length,
+    outputSize:   outputBuffer.length,
   };
 }
 

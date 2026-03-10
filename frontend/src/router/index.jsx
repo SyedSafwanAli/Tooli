@@ -19,10 +19,22 @@ const Guides      = lazy(() => import('../pages/Guides'));
 const GuideDetail = lazy(() => import('../pages/GuideDetail'));
 
 // Admin
-const AdminLogin     = lazy(() => import('../pages/admin/Login'));
-const AdminDashboard = lazy(() => import('../pages/admin/Dashboard'));
-const AdminAnalytics = lazy(() => import('../pages/admin/Analytics'));
-const AdminRevenue   = lazy(() => import('../pages/admin/Revenue'));
+const AdminLogin        = lazy(() => import('../pages/admin/Login'));
+const AdminDashboard    = lazy(() => import('../pages/admin/Dashboard'));
+const AdminAnalytics    = lazy(() => import('../pages/admin/Analytics'));
+const AdminRevenue      = lazy(() => import('../pages/admin/Revenue'));
+const AdminToolsManager = lazy(() => import('../pages/admin/ToolsManager'));
+const AdminSystemHealth = lazy(() => import('../pages/admin/SystemHealth'));
+const AdminFileLogs     = lazy(() => import('../pages/admin/FileLogs'));
+const AdminSeoManager   = lazy(() => import('../pages/admin/SeoManager'));
+const AdminAIInsights   = lazy(() => import('../pages/admin/AIInsights'));
+const AdminBlogManager  = lazy(() => import('../pages/admin/BlogManager'));
+const AdminGuidesManager = lazy(() => import('../pages/admin/GuidesManager'));
+const AdminUserActivity  = lazy(() => import('../pages/admin/UserActivity'));
+
+// Blog
+const Blog     = lazy(() => import('../pages/Blog'));
+const BlogPost = lazy(() => import('../pages/BlogPost'));
 
 // ── Image Tools ──────────────────────────────────────────────────────────────
 const ImageCompressor = lazy(() => import('../pages/tools/ImageCompressor'));
@@ -89,8 +101,9 @@ const ImageCropTool  = lazy(() => import('../pages/tools/ImageCropTool'));
 const SvgOptimizer   = lazy(() => import('../pages/tools/SvgOptimizer'));
 
 // ── Batch 5 — PDF Tools ───────────────────────────────────────────────────────
-const PdfPageCounter = lazy(() => import('../pages/tools/PdfPageCounter'));
-const PdfMetadata    = lazy(() => import('../pages/tools/PdfMetadata'));
+const PdfPageCounter       = lazy(() => import('../pages/tools/PdfPageCounter'));
+const PdfMetadata          = lazy(() => import('../pages/tools/PdfMetadata'));
+const MarkdownPDFConverter = lazy(() => import('../pages/tools/MarkdownPDFConverter'));
 
 // ── Batch 5 — Text Tools ──────────────────────────────────────────────────────
 const TextDiff        = lazy(() => import('../pages/tools/TextDiff'));
@@ -145,6 +158,7 @@ export const router = createBrowserRouter([
       { path: 'tools/image-to-pdf',    element: wrap(ImageToPdf) },
       { path: 'tools/pdf-page-counter', element: wrap(PdfPageCounter) },
       { path: 'tools/pdf-metadata',     element: wrap(PdfMetadata) },
+      { path: 'tools/markdown-pdf',     element: wrap(MarkdownPDFConverter) },
 
       // ── Text Tools (4 built + 5 coming soon) ─────────────────────────────
       { path: 'tools/word-counter',       element: wrap(WordCounter) },
@@ -220,7 +234,19 @@ export const router = createBrowserRouter([
       { path: 'admin/dashboard', element: wrap(AdminDashboard) },
       { path: 'admin/analytics', element: wrap(AdminAnalytics) },
       { path: 'admin/revenue',   element: wrap(AdminRevenue) },
+      { path: 'admin/tools',       element: wrap(AdminToolsManager) },
+      { path: 'admin/system',      element: wrap(AdminSystemHealth) },
+      { path: 'admin/logs',        element: wrap(AdminFileLogs) },
+      { path: 'admin/seo',         element: wrap(AdminSeoManager) },
+      { path: 'admin/ai-insights', element: wrap(AdminAIInsights) },
+      { path: 'admin/blog',        element: wrap(AdminBlogManager) },
+      { path: 'admin/guides',      element: wrap(AdminGuidesManager) },
+      { path: 'admin/users',       element: wrap(AdminUserActivity) },
       { path: 'admin', element: <Navigate to="/admin/dashboard" replace /> },
+
+      // ── Blog (public) ──────────────────────────────────────────────────────
+      { path: 'blog',       element: wrap(Blog) },
+      { path: 'blog/:slug', element: wrap(BlogPost) },
 
       { path: '*', element: wrap(NotFound) },
     ],

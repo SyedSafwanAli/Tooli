@@ -929,6 +929,20 @@ export const UserAgentParserIcon = ({ className = 'w-6 h-6' }) => (
   </svg>
 );
 
+// ─── Markdown ↔ PDF ──────────────────────────────────────────────────────────
+export const MarkdownPdfIcon = ({ className = 'w-6 h-6' }) => (
+  <svg className={className} {...base}>
+    {/* Document */}
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3h-2a2 2 0 00-2 2v14a2 2 0 002 2h11a2 2 0 002-2V10.5" />
+    {/* MD text lines */}
+    <line x1="7.5" y1="10" x2="13" y2="10" strokeOpacity="0.6" />
+    <line x1="7.5" y1="13" x2="11" y2="13" strokeOpacity="0.5" />
+    {/* Arrow ↔ */}
+    <path d="M15 17l2 2 2-2M15 21l2-2 2 2" strokeOpacity="0.8" />
+  </svg>
+);
+
 // ─── Icon map ─────────────────────────────────────────────────────────────────
 // Maps tool.id → SVG icon component.
 // Tools not listed here fall back to tool.icon emoji (handled in ToolCard).
@@ -1000,4 +1014,6 @@ export const ICON_MAP = {
   'timezone-converter':     TimezoneConverterIcon,
   'random-name':            RandomNameIcon,
   'user-agent-parser':      UserAgentParserIcon,
+  // Markdown ↔ PDF
+  'markdown-pdf':           MarkdownPdfIcon,
 };

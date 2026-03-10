@@ -28,5 +28,10 @@ module.exports = {
     analyticsFile: path.join(__dirname, '../../data/analytics.json'),
     revenueFile: path.join(__dirname, '../../data/revenue.json'),
     adminFile: path.join(__dirname, '../../data/admin.json'),
+    toolsFile: path.join(__dirname, '../../data/tools.json'),
+    logsFile: path.join(__dirname, '../../data/logs.json'),
+    seoFile: path.join(__dirname, '../../data/seo.json'),
+    blogFile: path.join(__dirname, '../../data/blog.json'),
+    guidesAdminFile: path.join(__dirname, '../../data/guidesAdmin.json'),
   },
 };

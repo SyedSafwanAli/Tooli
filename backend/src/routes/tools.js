@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const imageController = require('../controllers/tools/imageController');
-const pdfController = require('../controllers/tools/pdfController');
+const imageController       = require('../controllers/tools/imageController');
+const pdfController         = require('../controllers/tools/pdfController');
+const markdownPdfController = require('../controllers/tools/markdownPdfController');
 const { toolsLimiter } = require('../middleware/rateLimiter');
 const {
   uploadImage,
   uploadMultiPDF,
   uploadPDF,
   uploadMultiImage,
+  uploadMarkdown,
 } = require('../middleware/upload');
 
 router.use(toolsLimiter);
@@ -21,5 +23,10 @@ router.post('/convert-image', uploadImage.single('image'), imageController.conve
 router.post('/merge-pdfs', uploadMultiPDF.array('pdfs', 10), pdfController.mergePdfs);
 router.post('/split-pdf', uploadPDF.single('pdf'), pdfController.splitPdf);
 router.post('/image-to-pdf', uploadMultiImage.array('images', 10), pdfController.imagesToPdf);
+
+// Markdown ↔ PDF tools
+// markdown-to-pdf: accepts body.markdown (text) OR a single .md file upload
+router.post('/markdown-to-pdf', uploadMarkdown.single('file'), markdownPdfController.markdownToPDF);
+router.post('/pdf-to-markdown', uploadPDF.single('pdf'),       markdownPdfController.pdfToMarkdown);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 # Tooli — Production-Ready MERN Tools Website
 
-> 60 free online tools · 8 categories · No database required · Admin dashboard · Revenue tracking · Analytics · SEO-optimised
-> **60 tools built · 0 coming soon**
+> 61 free online tools · 8 categories · No database required · Admin dashboard · Revenue tracking · Analytics · SEO-optimised
+> **61 tools built · 0 coming soon**
 
 ---
 
@@ -62,7 +62,8 @@ tooli/
 │       │   ├── revenueService.js       ← Revenue operations + validation
 │       │   └── tools/
 │       │       ├── imageService.js     ← Sharp: compress, resize, convert
-│       │       └── pdfService.js       ← pdf-lib: merge, split, image-to-pdf
+│       │       ├── pdfService.js       ← pdf-lib: merge, split, image-to-pdf
+│       │       └── markdownPdfService.js ← markdown-it + Puppeteer (MD→PDF), pdf-parse (PDF→MD)
 │       │
 │       ├── controllers/                ← THIN ROUTE HANDLERS
 │       │   ├── admin/
@@ -71,14 +72,15 @@ tooli/
 │       │   │   └── revenueController.js
 │       │   └── tools/
 │       │       ├── imageController.js
-│       │       └── pdfController.js
+│       │       ├── pdfController.js
+│       │       └── markdownPdfController.js ← thin handler for MD→PDF and PDF→MD
 │       │
 │       ├── middleware/
 │       │   ├── auth.js                 ← JWT Bearer token verification
 │       │   ├── analytics.js            ← Auto-records every API request (non-blocking)
 │       │   ├── errorHandler.js         ← Global error formatter
 │       │   ├── rateLimiter.js          ← express-rate-limit (tools: 30/min, auth: 5/min)
-│       │   └── upload.js               ← Multer config (image, PDF, multi-file filters)
+│       │   └── upload.js               ← Multer config (image, PDF, multi-file, markdown filters)
 │       │
 │       ├── routes/
 │       │   ├── index.js                ← Mounts /tools, /admin, /track
@@ -114,7 +116,7 @@ tooli/
         │   └── useLocalStorage.js      ← Typed localStorage hook
         │
         ├── constants/
-        │   ├── tools.js                ← Master list of 60 tools (id, title, path, category, keywords)
+        │   ├── tools.js                ← Master list of 61 tools (id, title, path, category, keywords)
         │   └── guides.js               ← 5 guide articles with typed content sections (p/h2/ul/steps/faq/callout)
         │
         ├── services/
@@ -128,7 +130,7 @@ tooli/
         │
         ├── components/
         │   ├── common/
-        │   │   ├── Icons.jsx            ← 41 inline SVG tool icons + common UI icons + ICON_MAP
+        │   │   ├── Icons.jsx            ← 61 inline SVG tool icons + common UI icons + ICON_MAP
         │   │   ├── Button.jsx           ← Variants: primary, secondary, danger, ghost, outline
         │   │   ├── FileUpload.jsx        ← Drag-and-drop zone with animation, file list, remove buttons
         │   │   ├── LoadingSpinner.jsx    ← sm/md/lg sizes with optional text
@@ -137,6 +139,16 @@ tooli/
         │   │   ├── ToolLayout.jsx        ← Tool page wrapper: breadcrumb JSON-LD, icon header, related tools, SEO section
         │   │   ├── ImageResultPreview.jsx ← Before/After image comparison (Side by Side / Before / After tabs)
         │   │   └── ResultActions.jsx     ← Universal Download / Copy / Share action bar
+        │   │
+        │   ├── editor/                  ← ⭐ Fabric.js image editor components
+        │   │   ├── ImageEditor.jsx      ← fabric.js canvas (rotate/flip/zoom/pan/filters), forwardRef API
+        │   │   ├── CanvasToolbar.jsx    ← Toolbar: Rotate L/R, Flip H/V, Zoom In/Out, Reset View/All
+        │   │   ├── FilterControls.jsx   ← Sliders: Brightness, Contrast, Saturation, Blur + Grayscale toggle
+        │   │   ├── ImagePreview.jsx     ← Before/After tabs with file size & savings %
+        │   │   └── DownloadPanel.jsx    ← Download PNG/JPEG/WebP, Copy to clipboard, Web Share API
+        │   │
+        │   ├── tools/                   ← Shared tool layout wrappers
+        │   │   └── ImageToolLayout.jsx  ← Unified layout: react-dropzone + editor canvas + settings + before/after
         │   │
         │   └── layout/
         │       ├── Header.jsx           ← Sticky header + live search + category nav + mobile menu
@@ -155,11 +167,11 @@ tooli/
             │
             ├── Guides.jsx               ← /guides listing with category filter
             ├── GuideDetail.jsx          ← /guides/:slug article renderer
-            └── tools/                   ← 60 built tool pages (+ ComingSoon.jsx catch-all)
+            └── tools/                   ← 61 built tool pages (+ ComingSoon.jsx catch-all)
                 ├── ImageCompressor.jsx, ImageResizer.jsx, ImageConverter.jsx
                 ├── Base64Image.jsx, ImageCropTool.jsx, SvgOptimizer.jsx
                 ├── PdfMerger.jsx, PdfSplitter.jsx, ImageToPdf.jsx
-                ├── PdfPageCounter.jsx, PdfMetadata.jsx
+                ├── PdfPageCounter.jsx, PdfMetadata.jsx, MarkdownPDFConverter.jsx
                 ├── WordCounter.jsx, SlugGenerator.jsx, TextCaseConverter.jsx
                 ├── LoremIpsumGenerator.jsx, DuplicateLineRemover.jsx, HtmlToText.jsx
                 ├── TextDiff.jsx, MarkdownToHtml.jsx, EmailExtractor.jsx
@@ -183,26 +195,28 @@ tooli/
 
 ---
 
-## 60 Tools — All Categories
+## 61 Tools — All Categories
 
 > **Status key:**
 > - ✅ **Built** — full UI, SEO content, JSON-LD schemas, working in production
 > - 🚧 **Coming Soon** — listed in `TOOLS`, routed to `ComingSoon.jsx`, indexed in sitemap
 
-**60 built · 0 coming soon**
+**61 built · 0 coming soon**
 
-### Backend-Powered Tools (Node.js + Sharp / pdf-lib)
+### Backend-Powered Tools (Node.js + Sharp / pdf-lib / Puppeteer)
 
-All 6 backend tools are fully built.
+All 8 backend tools are fully built.
 
 | # | Status | Tool | Route | Tech | What it does |
 |---|--------|------|-------|------|--------------|
-| 1 | ✅ | **Image Compressor** | `POST /api/tools/compress-image` | Sharp | Reduce file size with quality slider (1–100). Before/after preview. Format selectable (JPEG/PNG/WebP/AVIF). |
-| 2 | ✅ | **Image Resizer** | `POST /api/tools/resize-image` | Sharp | Resize to exact px. Proportional scaling. Fit modes: cover, contain, fill, inside, outside. |
-| 3 | ✅ | **Image Converter** | `POST /api/tools/convert-image` | Sharp | Convert between JPEG, PNG, WebP, AVIF, TIFF. Quality control for lossy formats. |
+| 1 | ✅ | **Image Compressor** | `POST /api/tools/compress-image` | Sharp | Quality slider (1–100), format select, react-dropzone upload, immediate upload preview, before/after size comparison. No editor canvas — Sharp handles server-side. |
+| 2 | ✅ | **Image Resizer** | `POST /api/tools/resize-image` | Sharp | Resize to exact px, fit modes (cover/contain/fill/inside/outside), format select, before/after preview. No editor canvas — Sharp handles server-side. |
+| 3 | ✅ | **Image Converter** | `POST /api/tools/convert-image` | Sharp | **Batch** (up to 50 files), per-file: format (JPEG/PNG/WebP/AVIF/TIFF/GIF), quality, resize W×H, rotate, flip H/V. Built-in fabric.js editor per file. Before/After modal. Rename + ZIP download. |
 | 4 | ✅ | **PDF Merger** | `POST /api/tools/merge-pdfs` | pdf-lib | Merge up to 10 PDFs into one. Drag to reorder pages before merging. |
 | 5 | ✅ | **PDF Splitter** | `POST /api/tools/split-pdf` | pdf-lib + archiver | Split into individual pages or page range. Single page → PDF. Multiple → ZIP. |
 | 6 | ✅ | **Image to PDF** | `POST /api/tools/image-to-pdf` | pdf-lib + Sharp | Convert 1–10 images into a multi-page PDF. Auto-fits to A4. |
+| 7 | ✅ | **Markdown → PDF** | `POST /api/tools/markdown-to-pdf` | markdown-it + Puppeteer | Accepts raw Markdown text or `.md` file upload. Renders to themed HTML (light/dark, font choice), prints PDF via headless Chromium. Page size, orientation, font size, and margins are all configurable. |
+| 8 | ✅ | **PDF → Markdown** | `POST /api/tools/pdf-to-markdown` | pdf-parse | Extracts text from PDF, applies heuristics: ALL CAPS short lines → `# heading`, bullet/numbered → lists, indented blocks → code blocks. Returns Markdown text + page count + word count. |
 
 ### Frontend-Only Tools (zero backend calls, fully in browser)
 
@@ -210,14 +224,16 @@ All 6 backend tools are fully built.
 | Status | Tool | What it does |
 |--------|------|--------------|
 | ✅ | **Base64 Image Encoder** | Convert images to/from Base64 data URIs for embedding in HTML/CSS |
-| ✅ | **Image Crop Tool** | Crop images to any size or aspect ratio in-browser |
+| ✅ | **Image Crop Tool** | fabric.js editor (rotate/flip/filters) → Apply Edits → canvas crop with 8 handles, aspect ratio lock, rule-of-thirds grid, exact px inputs |
 | ✅ | **SVG Optimizer** | Clean and minify SVG markup |
 
-#### PDF (2 of 2 built)
+#### PDF — Frontend-Only (2 of 2 built)
 | Status | Tool | What it does |
 |--------|------|--------------|
 | ✅ | **PDF Page Counter** | Count PDF pages without uploading |
 | ✅ | **PDF Metadata Viewer** | View title, author, creation date and other PDF properties |
+
+> **Also see backend:** Markdown ↔ PDF Converter (rows 7 & 8 above) — full split editor, batch conversion, live preview, export settings.
 
 #### Text (9 of 9 built)
 | Status | Tool | What it does |
@@ -302,7 +318,7 @@ All 6 backend tools are fully built.
 - Category filter tabs with emoji icons and tool count badges
 - Search result count indicator
 - Benefits row: Lightning Fast / 100% Private / Zero Signup / Always Free
-- Stats bar (15 tools, 0 signup, 100% browser privacy)
+- Stats bar (61 tools, 8 categories, 0 signup, 100% browser privacy)
 - SEO content section with feature breakdown by category
 
 ### Tool Pages
@@ -318,7 +334,7 @@ Every tool page now includes:
 - **JSON-LD structured data** — `WebApplication` + `FAQPage` schemas injected via `useSEO` and cleaned up on unmount
 
 ### `Icons.jsx`
-Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="none"`) for 60 tools (Phase 2 + Phase 4 + Phase 5):
+Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="none"`) for 61 tools (Phase 2 + Phase 4 + Phase 5 + Phase 6):
 
 **Phase 2 originals (15):** `CompressImageIcon`, `ResizeImageIcon`, `ConvertImageIcon`, `MergePdfIcon`, `SplitPdfIcon`, `ImageToPdfIcon`, `WordCounterIcon`, `JsonFormatterIcon`, `Base64Icon`, `UrlEncoderIcon`, `PasswordGeneratorIcon`, `ColorConverterIcon`, `HashGeneratorIcon`, `QrGeneratorIcon`, `UnitConverterIcon`
 
@@ -334,7 +350,81 @@ Heroicons-style inline SVGs (`viewBox="0 0 24 24"`, `strokeWidth="1.5"`, `fill="
 
 **Phase 5 Batch 5 additions (12):** `ImageCropToolIcon`, `SvgOptimizerIcon`, `PdfPageCounterIcon`, `PdfMetadataIcon`, `TextDiffIcon`, `MarkdownToHtmlIcon`, `JsMinifierIcon`, `CronGeneratorIcon`, `EmiCalculatorIcon`, `TimezoneConverterIcon`, `RandomNameIcon`, `UserAgentParserIcon`
 
-**Common UI (10):** `UploadIcon`, `SearchIcon`, `DownloadIcon`, `CopyIcon`, `CheckIcon`, `SparklesIcon`, `ArrowRightIcon`, `ShieldCheckIcon`, `ZapIcon`, `GlobeIcon`
+**Phase 6 additions (1):** `MarkdownPdfIcon`
+
+**Common UI (10):** `UploadIcon`
+
+---
+
+### Image Platform — Editor Components
+
+All image tools share a unified editing layer built on **fabric.js v5**.
+
+#### `ImageEditor.jsx` — `components/editor/ImageEditor.jsx`
+
+forwardRef component. Usage:
+```jsx
+const editorRef = useRef(null);
+<ImageEditor ref={editorRef} imageFile={file} onReady={() => {}} />
+
+// Imperative API:
+editorRef.current.rotateLeft()
+editorRef.current.rotateRight()
+editorRef.current.flipH()
+editorRef.current.flipV()
+editorRef.current.zoomIn()
+editorRef.current.zoomOut()
+editorRef.current.resetView()
+editorRef.current.resetAll()
+editorRef.current.updateFilter('brightness', 0.3)   // or key='reset'
+editorRef.current.getDataURL('png', 0.92)            // returns dataURL string
+editorRef.current.getBlob('webp', 0.92)              // returns Promise<Blob>
+```
+
+**Key implementation notes:**
+- fabric.js loaded via dynamic `import('fabric')` inside `useEffect` (avoids Vite ESM issues)
+- `requestAnimationFrame` before reading `containerRef.current.clientWidth` — ensures layout is painted
+- Image loaded via `FileReader.readAsDataURL()` — avoids CORS issues with `createObjectURL`
+- `canvasReady` state gates image loading — fixes race condition (image effect depends on `[imageFile, canvasReady]`)
+- Alt+drag to pan · Scroll-wheel to zoom · fabric control handles for move/resize/rotate
+- `vite.config.js` must have `optimizeDeps: { include: ['fabric'] }`
+
+#### `ImageToolLayout.jsx` — `components/tools/ImageToolLayout.jsx`
+
+Drop-in replacement for `ToolLayout` for all image tools. Props:
+```jsx
+<ImageToolLayout
+  title="..."  description="..."  icon={...}  category="Images"  seoContent={...}
+  onProcess={async (file, filters, editorRef) => ({ blob, originalSize, resultSize, savedPct })}
+  processLabel="Compress Image"
+  controlsSlot={<>...tool-specific controls...</>}
+  showEditor={true}     // show fabric.js canvas (default true)
+  showFilters={true}    // show filter sliders (default true)
+  downloadName="result"
+/>
+```
+
+**`showEditor={false}` mode** — used by ImageCompressor and ImageResizer (Sharp handles all processing server-side; a canvas editor would be misleading):
+- Upload → immediate preview rendered via `URL.createObjectURL` inside a `useEffect` with revoke cleanup (no memory leak per render)
+- After processing → side-by-side **Before / After** thumbnails with original size, result size, and savings % badge
+- `controlsSlot` renders full-width (no canvas column), giving more space for quality sliders, dimension inputs, etc.
+
+#### `ImageConverter.jsx` — Advanced batch converter
+
+Per-file state shape:
+```js
+{ id, file, stem, format, quality, width, height, fit, rotate, flipH, flipV,
+  editedFile,   // File produced by editor (PNG), replaces original for conversion
+  status,       // 'idle' | 'converting' | 'done' | 'error'
+  blob, outW, outH, error }
+```
+
+Backend `convertImage` now accepts: `format, quality, width, height, fit, rotate, flipH, flipV`
+- `flipH` → `sharp.flop()` (horizontal mirror)
+- `flipV` → `sharp.flip()` (vertical mirror)
+- Supported output: `jpeg, png, webp, avif, tiff, gif`
+
+---, `SearchIcon`, `DownloadIcon`, `CopyIcon`, `CheckIcon`, `SparklesIcon`, `ArrowRightIcon`, `ShieldCheckIcon`, `ZapIcon`, `GlobeIcon`
 
 `ICON_MAP` maps `tool.id` → SVG component. Tools without an entry fall back to the `tool.icon` emoji (handled by `ToolCard` and `RelatedToolCard`).
 
@@ -384,7 +474,7 @@ useSEO({ title, description, keywords, jsonLd, canonical })
 ## SEO Optimization — Phase 3
 
 ### Canonical URLs
-All 15 tool pages pass `canonical: '/tools/{slug}'` to `useSEO()`. The hook creates or updates `<link rel="canonical" href="https://tooli.app/tools/{slug}">` and removes it on unmount.
+All tool pages pass `canonical: '/tools/{slug}'` to `useSEO()`. The hook creates or updates `<link rel="canonical" href="https://tooli.app/tools/{slug}">` and removes it on unmount.
 
 ### BreadcrumbList JSON-LD
 `ToolLayout` injects a `BreadcrumbList` schema directly via `<script dangerouslySetInnerHTML>` for each tool:
@@ -419,7 +509,7 @@ Disallow: /api/
 Sitemap: https://tooli.app/sitemap.xml
 ```
 
-**`sitemap.xml`** — 77 URLs total (1 homepage + 60 tools + 1 guides index + 5 guide articles + 10 sitemap entries for misc pages):
+**`sitemap.xml`** — needs updating to 78+ URLs (1 homepage + 61 tools + 1 guides index + 5 guide articles + misc pages). `/tools/markdown-pdf` not yet added:
 | Priority | URLs |
 |----------|------|
 | `1.0` weekly | Homepage `/` |
@@ -433,7 +523,7 @@ Sitemap: https://tooli.app/sitemap.xml
 
 ### Scale: 15 → 60 Tools
 
-Phase 4 expands the platform to 60 tools across 8 categories. The architecture required zero changes — the TOOLS constant, router, and ToolLayout all scale automatically.
+Phase 4 expands the platform to 60 tools across 8 categories. The architecture required zero changes — the TOOLS constant, router, and ToolLayout all scale automatically. (Phase 6 later added the 61st tool: Markdown ↔ PDF Converter.)
 
 ### 2 New Categories Added
 
@@ -667,6 +757,99 @@ All 5 tools follow the `ToolLayout + seoContent + useSEO + ResultActions` patter
 
 ---
 
+## Phase 6 — Markdown ↔ PDF Converter + UX Redesign
+
+### Markdown ↔ PDF Converter (`/tools/markdown-pdf`) ✅
+
+Full-featured two-mode tool — the most complex tool on the platform.
+
+#### Markdown → PDF mode
+| Feature | Detail |
+|---------|--------|
+| Editor | Full-width `<textarea>` with formatting toolbar (B / I / H1 / H2 / H3 / UL / OL / Task / Inline Code / Code Block / Blockquote / Table / Link / Image / HR) |
+| View modes | Editor · Split (editor + live preview side-by-side) · Preview only |
+| Live preview | `marked.parse()` renders GitHub-Flavoured Markdown in the browser |
+| Export settings | Page size (A4 / Letter / Legal), orientation (portrait / landscape), theme (light / dark), font family (sans-serif / serif / monospace), font size (px), margins T/B/L/R (mm) |
+| Settings panel | Collapsed by default, toggled by ⚙ button in toolbar row |
+| Batch | Multi-file `.md` drag-and-drop; per-file color-coded status dot; Convert All; ZIP download via JSZip |
+| Server | `markdown-it` renders HTML with CSS template; Puppeteer headless Chromium prints PDF with `printBackground: true` |
+
+#### PDF → Markdown mode
+| Feature | Detail |
+|---------|--------|
+| Upload | react-dropzone; multiple PDF files; per-file status pills |
+| Extraction | `pdf-parse` extracts raw text; heuristics convert to Markdown: ALL CAPS short lines → `# heading`, bullet/numbered → lists, indented blocks → code blocks |
+| Editor | Editable textarea per file with header row showing page count + word count |
+| Actions | Copy Markdown · Download `.md` file · Extract button |
+| Quality note | Heuristic extraction — complex layouts (tables, columns) may need manual cleanup |
+
+#### New backend files
+| File | Purpose |
+|------|---------|
+| `backend/src/services/tools/markdownPdfService.js` | `markdownToPDF(content, opts)` — builds HTML template → Puppeteer PDF; `pdfToMarkdown(filePath)` — pdf-parse + `textToMarkdown()` heuristics |
+| `backend/src/controllers/tools/markdownPdfController.js` | `markdownToPDF`: accepts `req.body.markdown` or uploaded `.md` file; sends binary PDF. `pdfToMarkdown`: requires PDF upload; returns `{ markdown, pageCount, wordCount }` |
+| `backend/src/middleware/upload.js` | Added `uploadMarkdown` multer instance — accepts `.md`, `.markdown`, `.txt`, `text/*` MIME; 5 MB limit |
+
+#### New frontend dependencies
+| Package | Why |
+|---------|-----|
+| `marked` | Client-side Markdown → HTML for live split preview |
+| `jszip` | Client-side ZIP of batch-converted PDFs or `.md` files |
+
+#### New backend dependencies
+| Package | Why |
+|---------|-----|
+| `markdown-it` | Server-side Markdown → HTML rendering with plugin support |
+| `puppeteer` | Headless Chromium — HTML → PDF with exact page size and margins |
+| `pdf-parse` | PDF text extraction without native bindings |
+
+---
+
+### Image Tools UX Redesign ✅
+
+| Change | Detail |
+|--------|--------|
+| **ImageCompressor** | `showEditor={false} showFilters={false}` — fabric.js canvas removed. Upload → immediate preview → quality slider + format → process → Before/After size comparison. |
+| **ImageResizer** | Same — canvas removed. Dimension inputs and fit mode now full-width. |
+| **ImageConverter** | Unchanged — fabric.js editor still shown per-file in modal (appropriate for per-file editing before batch convert). |
+| **ImageCropTool** | Unchanged — editor at top of page, Apply Edits → crop canvas with handles. |
+| **ImageToolLayout** | `URL.createObjectURL` moved into `useEffect` with `URL.revokeObjectURL` cleanup — fixes object URL memory leak that occurred on every render. |
+
+---
+
+### Home / Header / Footer Redesign ✅
+
+#### `Home.jsx`
+- **Hero**: subtle grid overlay, gradient text, animated "live" badge, "61 free tools · no signup"
+- **Search**: full-width with clear (✕) button; quick-link pills for 6 popular tools including Markdown ↔ PDF Converter
+- **Dark stats bar**: 61 tools · 8 categories · 0 signup · 100% private
+- **Category showcase**: 8 coloured clickable tiles (shown on "All" view with no search active)
+- **Benefits row**: updated copy — "All 61 tools are completely free"
+- **Feature rows**: 4-column grid (Image Tools / PDF Tools / Developer Tools / SEO & Security)
+
+#### `Header.jsx`
+- **Logo**: gradient blue-indigo rounded square with "T" + "Tool**i**" wordmark
+- **Search**: `bg-gray-50` input, `useRef` + outside-click `useEffect` handler, results dropdown shows category chip + tool description, up to 8 results
+- **Desktop nav**: all 8 categories with emoji icons + Guides link
+- **Mobile menu**: categories as accordion groups, each with 2-column tool grid (replaces old flat list of all tools)
+- Route change closes menu automatically via `useEffect([location.pathname])`
+
+#### `Footer.jsx`
+- **4-column tool link grid**: Images + PDF | Text + Developer | Security + SEO | Calculator + Utility
+- **4 SEO paragraphs**: cover all 8 categories, mention Markdown↔PDF Converter and Puppeteer/Sharp/pdf-lib tech
+- **Brand strip**: "61 free tools · 8 categories · no registration" + Guides / Sitemap / Admin links
+
+---
+
+## What's Left to Build
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| **AI Stock Image Platform** (`/stock`) | Not started | Needs Unsplash or Pexels API key; download gate (ad / countdown); no storage needed for API-sourced images. See architecture notes below. |
+| **Blog** (`/blog`) | Not started | Shares Guide infrastructure — same content model, same `GuideSection` renderer. No new components needed. |
+| **sitemap.xml** | Needs update | Add `/tools/markdown-pdf` URL (`priority: 0.9`) |
+| **Guide article** | Optional | Could add one for Markdown ↔ PDF Converter |
+
 ### AI Stock Image Platform & Blog — Architecture (Not Yet Built)
 
 #### AI Stock (`/stock`) — External dependencies required
@@ -711,10 +894,14 @@ POST   /api/tools/convert-image     body: multipart (image file, format, quality
 POST   /api/tools/merge-pdfs        body: multipart (pdfs[] — up to 10 files)
 POST   /api/tools/split-pdf         body: multipart (pdf file, pages?)
 POST   /api/tools/image-to-pdf      body: multipart (images[] — up to 10 files)
+POST   /api/tools/markdown-to-pdf   body: multipart (file? .md) OR JSON { markdown } + options → binary PDF
+POST   /api/tools/pdf-to-markdown   body: multipart (pdf file) → { markdown, pageCount, wordCount }
 ```
 
-All file tool endpoints respond with the processed file as a binary blob (`Content-Disposition: attachment`).
+All binary tool endpoints respond with the processed file as a binary blob (`Content-Disposition: attachment`).
 Custom headers carry metadata: `X-Original-Size`, `X-Compressed-Size`, `X-Width`, `X-Height`, `X-Page-Count`.
+
+`/markdown-to-pdf` accepts optional query/body fields: `pageSize` (A4/Letter/Legal), `orientation` (portrait/landscape), `theme` (light/dark), `font` (sans/serif/mono), `fontSize` (px), `marginTop/Bottom/Left/Right` (mm).
 
 ### Admin Endpoints (Rate limited: auth 5/min, others standard)
 
@@ -953,6 +1140,9 @@ react-router-dom   ^6.24.0   — Client-side routing
 axios              ^1.7.2    — HTTP client with interceptors
 recharts           ^2.12.7   — Charts (LineChart, BarChart, PieChart)
 qrcode             ^1.5.4    — QR code generation (canvas-based)
+fabric             ^5.x      — ⭐ Canvas-based image editor (rotate/flip/zoom/pan/filters)
+react-dropzone     ^15.x     — ⭐ Drag-and-drop file upload with multi-file support
+jszip              ^3.x      — ⭐ ZIP archive creation for batch image downloads
 vite               ^5.3.4    — Build tool + dev server
 tailwindcss        ^3.4.6    — Utility-first CSS
 @vitejs/plugin-react ^4.3.1  — React JSX transform for Vite

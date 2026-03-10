@@ -1,6 +1,11 @@
+import { useState, useEffect } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
+import { marked } from 'marked';
 import { GUIDES } from '../constants/guides';
+import { TOOLS } from '../constants/tools';
 import { useSEO, buildFAQSchema } from '../utils/useSEO';
+import api from '../services/api';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 const CATEGORY_COLORS = {
   Images:     'bg-blue-50 text-blue-600 border-blue-100',
@@ -15,20 +20,46 @@ const CATEGORY_COLORS = {
 
 export default function GuideDetail() {
   const { slug } = useParams();
-  const guide = GUIDES.find(g => g.slug === slug);
+  const localGuide = GUIDES.find(g => g.slug === slug);
 
-  if (!guide) return <Navigate to="/guides" replace />;
+  const [apiGuide, setApiGuide] = useState(null);
+  const [loading, setLoading] = useState(!localGuide);
+  const [notFound, setNotFound] = useState(false);
 
-  const colorClass = CATEGORY_COLORS[guide.category] || CATEGORY_COLORS.Utility;
-  const faqSection = guide.content.find(s => s.type === 'faq');
+  useEffect(() => {
+    if (localGuide) return;
+    api.get(`/guides-api/${slug}`)
+      .then(r => setApiGuide(r.data.data))
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  const guide = localGuide || apiGuide;
+  const isLocal = !!localGuide;
+
+  const faqSection = isLocal ? guide?.content?.find(s => s.type === 'faq') : null;
 
   useSEO({
-    title: guide.title,
-    description: guide.description,
-    keywords: guide.keywords,
-    canonical: `/guides/${guide.slug}`,
+    title: guide?.title || '',
+    description: isLocal ? guide?.description : guide?.metaDescription,
+    keywords: isLocal ? guide?.keywords : guide?.tags,
+    canonical: `/guides/${slug}`,
     jsonLd: faqSection ? [buildFAQSchema(faqSection.items)] : [],
   });
+
+  if (loading) {
+    return <div className="flex justify-center py-20"><LoadingSpinner text="Loading guide…" /></div>;
+  }
+  if (notFound || !guide) return <Navigate to="/guides" replace />;
+
+  const colorClass = CATEGORY_COLORS[guide.category] || CATEGORY_COLORS.Utility;
+
+  // For API guides, resolve relatedTool ID → tool object from TOOLS constant
+  const relatedTool = isLocal
+    ? guide.relatedTool
+    : guide.relatedTool
+      ? TOOLS.find(t => t.id === guide.relatedTool)
+      : null;
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10 animate-fade-in">
@@ -49,24 +80,30 @@ export default function GuideDetail() {
             {guide.category}
           </span>
           <span className="text-xs text-gray-400">{guide.readTime} min read</span>
-          <span className="text-xs text-gray-300">·</span>
-          <span className="text-xs text-gray-400">
-            {new Date(guide.publishedAt).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </span>
+          {guide.publishedAt && (
+            <>
+              <span className="text-xs text-gray-300">·</span>
+              <span className="text-xs text-gray-400">
+                {new Date(guide.publishedAt).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </span>
+            </>
+          )}
         </div>
         <h1 className="text-3xl font-extrabold text-gray-900 leading-tight mb-4">{guide.title}</h1>
-        <p className="text-lg text-gray-500 leading-relaxed">{guide.description}</p>
+        <p className="text-lg text-gray-500 leading-relaxed">
+          {isLocal ? guide.description : guide.metaDescription}
+        </p>
       </header>
 
       {/* Related tool CTA */}
-      {guide.relatedTool && (
+      {relatedTool && (
         <Link
-          to={guide.relatedTool.path}
-          className="flex items-center gap-4 p-4 mb-10 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl hover:border-blue-300 hover:shadow-sm transition-all group"
+          to={relatedTool.path}
+          className="flex items-center gap-4 p-4 mb-10 bg-blue-50 border border-blue-100 rounded-2xl hover:border-blue-300 hover:shadow-sm transition-all group"
         >
           <div className="flex-1">
             <p className="text-xs font-semibold text-blue-500 uppercase tracking-wide mb-1">Free Online Tool</p>
-            <p className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors">{guide.relatedTool.title}</p>
+            <p className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors">{relatedTool.title}</p>
             <p className="text-sm text-gray-500">Use this tool now — no signup required</p>
           </div>
           <svg className="w-5 h-5 text-blue-400 group-hover:translate-x-1 transition-transform shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -76,11 +113,22 @@ export default function GuideDetail() {
       )}
 
       {/* Article content */}
-      <article className="prose-guide space-y-6">
-        {guide.content.map((section, i) => (
-          <GuideSection key={i} section={section} />
-        ))}
-      </article>
+      {isLocal ? (
+        <article className="prose-guide space-y-6">
+          {guide.content.map((section, i) => (
+            <GuideSection key={i} section={section} />
+          ))}
+        </article>
+      ) : (
+        <article
+          className="prose prose-gray max-w-none prose-headings:font-bold prose-a:text-blue-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded"
+          dangerouslySetInnerHTML={{
+            __html: guide.contentType === 'html'
+              ? (guide.content || '')
+              : marked.parse(guide.content || ''),
+          }}
+        />
+      )}
 
       {/* Footer nav */}
       <div className="mt-14 pt-8 border-t border-gray-100 flex items-center justify-between flex-wrap gap-4">
@@ -90,12 +138,12 @@ export default function GuideDetail() {
           </svg>
           All Guides
         </Link>
-        {guide.relatedTool && (
+        {relatedTool && (
           <Link
-            to={guide.relatedTool.path}
+            to={relatedTool.path}
             className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors"
           >
-            Try {guide.relatedTool.title}
+            Try {relatedTool.title}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>

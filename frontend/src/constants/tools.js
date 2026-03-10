@@ -127,6 +127,16 @@ export const TOOLS = [
     type: 'frontend',
     keywords: ['pdf', 'metadata', 'author', 'title', 'info', 'properties'],
   },
+  {
+    id: 'markdown-pdf',
+    title: 'Markdown ↔ PDF Converter',
+    description: 'Convert Markdown to styled PDF or extract PDF text as Markdown. Live preview, batch support, custom themes.',
+    icon: '📝',
+    category: 'PDF',
+    path: '/tools/markdown-pdf',
+    type: 'backend',
+    keywords: ['markdown', 'pdf', 'convert', 'md to pdf', 'pdf to markdown', 'export', 'batch'],
+  },
 
   // ── Text ────────────────────────────────────────────────────────────────────
   {

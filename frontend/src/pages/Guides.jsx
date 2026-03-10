@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GUIDES_SORTED } from '../constants/guides';
 import { useSEO } from '../utils/useSEO';
+import api from '../services/api';
 
 const CATEGORY_COLORS = {
   Images:     'bg-blue-50 text-blue-600 border-blue-100',
@@ -14,10 +15,15 @@ const CATEGORY_COLORS = {
   Utility:    'bg-slate-50 text-slate-600 border-slate-100',
 };
 
-const ALL_CATEGORIES = [...new Set(GUIDES_SORTED.map(g => g.category))];
-
 export default function Guides() {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [apiGuides, setApiGuides] = useState([]);
+
+  useEffect(() => {
+    api.get('/guides-api')
+      .then(r => setApiGuides(r.data.data || []))
+      .catch(() => {});
+  }, []);
 
   useSEO({
     title: 'Tool Guides',
@@ -26,9 +32,18 @@ export default function Guides() {
     canonical: '/guides',
   });
 
+  // Merge: published API guides first, then static guides (deduplicated by slug)
+  const apiSlugs = new Set(apiGuides.map(g => g.slug));
+  const allGuides = [
+    ...apiGuides.map(g => ({ ...g, description: g.metaDescription || '', _api: true })),
+    ...GUIDES_SORTED.filter(g => !apiSlugs.has(g.slug)),
+  ];
+
+  const ALL_CATEGORIES = [...new Set(allGuides.map(g => g.category))];
+
   const filtered = activeCategory === 'All'
-    ? GUIDES_SORTED
-    : GUIDES_SORTED.filter(g => g.category === activeCategory);
+    ? allGuides
+    : allGuides.filter(g => g.category === activeCategory);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 animate-fade-in">
@@ -60,7 +75,7 @@ export default function Guides() {
           >
             {cat}
             {cat !== 'All' && (
-              <span className="ml-1.5 opacity-60">{GUIDES_SORTED.filter(g => g.category === cat).length}</span>
+              <span className="ml-1.5 opacity-60">{allGuides.filter(g => g.category === cat).length}</span>
             )}
           </button>
         ))}
@@ -72,7 +87,7 @@ export default function Guides() {
           const colorClass = CATEGORY_COLORS[guide.category] || CATEGORY_COLORS.Utility;
           return (
             <Link
-              key={guide.id}
+              key={guide.id || guide.slug}
               to={`/guides/${guide.slug}`}
               className="group flex flex-col bg-white border border-gray-100 rounded-2xl p-5 hover:border-blue-200 hover:shadow-md transition-all"
             >

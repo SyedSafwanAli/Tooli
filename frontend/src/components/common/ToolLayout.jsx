@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { TOOLS } from '../../constants/tools';
 import { ICON_MAP } from './Icons';
 import { buildBreadcrumbSchema } from '../../utils/useSEO';
@@ -96,7 +97,12 @@ export default function ToolLayout({ title, description, icon, category, seoCont
   }, [title, category, location.pathname]);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="max-w-3xl mx-auto px-4 sm:px-6 py-8"
+    >
       {/* Breadcrumb JSON-LD */}
       <script
         type="application/ld+json"
@@ -211,19 +217,19 @@ export default function ToolLayout({ title, description, icon, category, seoCont
           )}
 
           {/* CTA */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 text-center text-white">
+          <div className="bg-[#2563EB] rounded-2xl p-6 text-center text-white">
             <h2 className="font-bold text-lg mb-1">Need another free tool?</h2>
-            <p className="text-blue-100 text-sm mb-4">Explore all 60 tools — no signup, no watermarks, no limits.</p>
+            <p className="text-blue-100 text-sm mb-4">Explore all 61 tools — no signup, no watermarks, no limits.</p>
             <Link
               to="/"
               className="inline-flex items-center gap-2 bg-white text-blue-700 font-semibold px-5 py-2 rounded-lg hover:bg-blue-50 transition-colors text-sm"
             >
-              Browse All 60 Tools →
+              Browse All 61 Tools →
             </Link>
           </div>
 
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

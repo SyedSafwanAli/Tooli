@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const compression = require('compression');
 const path = require('path');
 const config = require('./config');
 const routes = require('./routes');
@@ -9,6 +10,15 @@ const errorHandler = require('./middleware/errorHandler');
 const analyticsMiddleware = require('./middleware/analytics');
 
 const app = express();
+
+// Gzip compression for all JSON / text responses (skip binary blobs already compressed)
+app.use(compression({
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) return false;
+    return compression.filter(req, res);
+  },
+  level: 6,
+}));
 
 // Security headers
 app.use(helmet());

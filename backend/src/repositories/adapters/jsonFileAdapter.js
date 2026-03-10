@@ -26,6 +26,11 @@ async function initDataFiles() {
     [config.data.analyticsFile]: { pageViews: [], toolUsage: {}, dailySummary: [] },
     [config.data.revenueFile]: { entries: [], categories: [] },
     [config.data.adminFile]: { username: config.admin.username, passwordHash: null },
+    [config.data.toolsFile]: { overrides: {} },
+    [config.data.logsFile]: { entries: [] },
+    [config.data.seoFile]: { meta: {} },
+    [config.data.blogFile]: { posts: [] },
+    [config.data.guidesAdminFile]: { guides: [] },
   };
 
   for (const [filePath, defaultData] of Object.entries(defaults)) {
