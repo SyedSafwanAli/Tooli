@@ -42,7 +42,12 @@ tooli/
 │   ├── data/                           ← JSON persistence (auto-created on first run)
 │   │   ├── analytics.json              ← Page views + tool usage counts
 │   │   ├── revenue.json                ← Revenue entries + categories
-│   │   └── admin.json                  ← Admin credentials (hashed password)
+│   │   ├── admin.json                  ← Admin credentials (hashed password)
+│   │   ├── tools.json                  ← Tool overrides (enable/disable, featured, rename)
+│   │   ├── logs.json                   ← File processing logs (last 1000 entries)
+│   │   ├── seo.json                    ← Per-path SEO meta overrides
+│   │   ├── blog.json                   ← Blog posts (title, content, contentType, tags, cover)
+│   │   └── guidesAdmin.json            ← Admin-managed guides (Markdown/HTML content)
 │   │
 │   └── src/
 │       ├── app.js                      ← Express app (cors, helmet, middleware, routes)
@@ -54,14 +59,16 @@ tooli/
 │       │   │   └── jsonFileAdapter.js  ← ⭐ Swap this for mongoAdapter.js to add MongoDB
 │       │   ├── analyticsRepository.js  ← Analytics CRUD
 │       │   ├── revenueRepository.js    ← Revenue CRUD
-│       │   └── adminRepository.js      ← Admin user CRUD
+│       │   ├── adminRepository.js      ← Admin user CRUD
+│       │   └── logsRepository.js       ← File processing logs (addLog — never throws)
 │       │
 │       ├── services/                   ← BUSINESS LOGIC
 │       │   ├── authService.js          ← JWT login, password change
 │       │   ├── analyticsService.js     ← Analytics queries
 │       │   ├── revenueService.js       ← Revenue operations + validation
+│       │   ├── analyticsEngine.js      ← AI insights: current vs previous period comparison
 │       │   └── tools/
-│       │       ├── imageService.js     ← Sharp: compress, resize, convert
+│       │       ├── imageService.js     ← Sharp: compress, resize, convert (+ flip, rotate)
 │       │       ├── pdfService.js       ← pdf-lib: merge, split, image-to-pdf
 │       │       └── markdownPdfService.js ← markdown-it + Puppeteer (MD→PDF), pdf-parse (PDF→MD)
 │       │
@@ -69,9 +76,16 @@ tooli/
 │       │   ├── admin/
 │       │   │   ├── authController.js
 │       │   │   ├── analyticsController.js
-│       │   │   └── revenueController.js
+│       │   │   ├── revenueController.js
+│       │   │   ├── aiInsightsController.js  ← wraps analyticsEngine
+│       │   │   ├── systemController.js      ← OS/process metrics (uptime, mem, CPU)
+│       │   │   ├── toolsController.js       ← tool overrides CRUD
+│       │   │   ├── logsController.js        ← file log read + clear
+│       │   │   ├── seoController.js         ← per-path SEO meta CRUD
+│       │   │   ├── blogAdminController.js   ← blog CRUD + cover image upload
+│       │   │   └── guidesAdminController.js ← guides CRUD
 │       │   └── tools/
-│       │       ├── imageController.js
+│       │       ├── imageController.js       ← calls logsRepo.addLog() after each operation
 │       │       ├── pdfController.js
 │       │       └── markdownPdfController.js ← thin handler for MD→PDF and PDF→MD
 │       │
@@ -83,9 +97,11 @@ tooli/
 │       │   └── upload.js               ← Multer config (image, PDF, multi-file, markdown filters)
 │       │
 │       ├── routes/
-│       │   ├── index.js                ← Mounts /tools, /admin, /track
+│       │   ├── index.js                ← Mounts /tools, /admin, /blog, /guides-api, /track
 │       │   ├── tools.js                ← Tool endpoints
-│       │   └── admin.js                ← Admin endpoints (most behind JWT)
+│       │   ├── admin.js                ← Admin endpoints (most behind JWT)
+│       │   ├── blog.js                 ← Public blog routes (published only)
+│       │   └── guides.js               ← Public guides routes (published only)
 │       │
 │       └── utils/
 │           └── responseHelper.js       ← Standard { success, data, message } shape
@@ -122,7 +138,7 @@ tooli/
         ├── services/
         │   ├── api.js                  ← Axios instance (auto-attaches JWT, 401 redirect)
         │   ├── toolsApi.js             ← Tool API calls + downloadBlob + getFileSizes helpers
-        │   └── adminApi.js             ← Admin API calls (analytics, revenue, auth)
+        │   └── adminApi.js             ← Admin API calls (analytics, revenue, insights, blog, guides…)
         │
         ├── utils/
         │   ├── formatters.js           ← formatBytes, formatCurrency, formatDate, savings%
@@ -137,8 +153,13 @@ tooli/
         │   │   ├── Alert.jsx             ← success/error/warning/info with dismiss
         │   │   ├── ToolCard.jsx          ← Homepage card: SVG icon, category badge, type badge
         │   │   ├── ToolLayout.jsx        ← Tool page wrapper: breadcrumb JSON-LD, icon header, related tools, SEO section
+        │   │   ├── ProgressBar.jsx       ← Animated progress bar component
+        │   │   ├── SkeletonLoader.jsx    ← Skeleton loading placeholder
         │   │   ├── ImageResultPreview.jsx ← Before/After image comparison (Side by Side / Before / After tabs)
         │   │   └── ResultActions.jsx     ← Universal Download / Copy / Share action bar
+        │   │
+        │   ├── admin/
+        │   │   └── MarkdownEditor.jsx   ← ⭐ Split-pane editor: MD/HTML toggle, toolbar, live preview
         │   │
         │   ├── editor/                  ← ⭐ Fabric.js image editor components
         │   │   ├── ImageEditor.jsx      ← fabric.js canvas (rotate/flip/zoom/pan/filters), forwardRef API
@@ -151,22 +172,32 @@ tooli/
         │   │   └── ImageToolLayout.jsx  ← Unified layout: react-dropzone + editor canvas + settings + before/after
         │   │
         │   └── layout/
-        │       ├── Header.jsx           ← Sticky header + live search + category nav + mobile menu
-        │       ├── Footer.jsx           ← Rich SEO content: 4 paragraphs + per-category tool listings
-        │       └── AdminLayout.jsx      ← Sidebar (Dashboard / Analytics / Revenue) + logout
+        │       ├── Header.jsx           ← Sticky header + live search + category nav + Guides + Blog + mobile menu
+        │       ├── Footer.jsx           ← Rich SEO content + Guides / Blog / Sitemap / Admin links
+        │       └── AdminLayout.jsx      ← Sidebar: 5 groups (Overview/Content/Management/Analytics/System)
         │
         └── pages/
             ├── Home.jsx                 ← Gradient hero + search + category tabs + grid + benefits + SEO
             ├── NotFound.jsx             ← 404 page
+            ├── Blog.jsx                 ← /blog — published posts listing with cover images, tags, dates
+            ├── BlogPost.jsx             ← /blog/:slug — renders Markdown or raw HTML (based on contentType)
             │
             ├── admin/
             │   ├── Login.jsx            ← JWT login form
-            │   ├── Dashboard.jsx        ← KPI cards + top pages + tool usage bars
+            │   ├── Dashboard.jsx        ← 6 KPI cards + animated bar chart + quick-link grid
             │   ├── Analytics.jsx        ← Line chart (visits/day) + bar chart (tool usage) + table
-            │   └── Revenue.jsx          ← CRUD form + line chart (monthly) + pie chart (by category)
+            │   ├── Revenue.jsx          ← CRUD form + line chart (monthly) + pie chart (by category)
+            │   ├── AIInsights.jsx       ← 3 KPI cards + insight cards by type + Recharts bar chart
+            │   ├── BlogManager.jsx      ← Blog CRUD: list table + MarkdownEditor form + cover image
+            │   ├── GuidesManager.jsx    ← Guides CRUD + category/readTime/relatedTool
+            │   ├── ToolsManager.jsx     ← Enable/disable/feature tools, inline title/description edit
+            │   ├── SeoManager.jsx       ← Per-path SEO meta overrides with AnimatePresence
+            │   ├── UserActivity.jsx     ← Active users, hourly chart, browser pie, top paths
+            │   ├── FileLogs.jsx         ← File processing log table, auto-refresh, clear
+            │   └── SystemHealth.jsx     ← Uptime, heap, RSS, system memory, CPU, env
             │
-            ├── Guides.jsx               ← /guides listing with category filter
-            ├── GuideDetail.jsx          ← /guides/:slug article renderer
+            ├── Guides.jsx               ← /guides — merges backend API guides + frontend constants
+            ├── GuideDetail.jsx          ← /guides/:slug — checks constants first, falls back to API
             └── tools/                   ← 61 built tool pages (+ ComingSoon.jsx catch-all)
                 ├── ImageCompressor.jsx, ImageResizer.jsx, ImageConverter.jsx
                 ├── Base64Image.jsx, ImageCropTool.jsx, SvgOptimizer.jsx
@@ -699,9 +730,38 @@ SEO-optimised article pages linked to each tool.
 | `how-to-create-strong-passwords` | Password Generator |
 
 #### How to add a new guide
+**Option A — Admin Dashboard (recommended):**
+1. Go to Admin → Guides Manager
+2. Create a new guide (Markdown or HTML), set status to Published
+3. It appears instantly at `/guides` (shown before static guides)
+
+**Option B — Static constant (existing guides):**
 1. Add an entry to `GUIDES` array in `frontend/src/constants/guides.js`
 2. Add the URL to `frontend/public/sitemap.xml`
 3. No router change needed — `guides/:slug` already handles any slug
+
+> `GuideDetail.jsx` checks the static `GUIDES` constant first. If the slug is not found there,
+> it fetches `GET /api/guides-api/:slug` and renders the `content` field as Markdown or HTML
+> depending on the `contentType` field.
+
+
+---
+
+### MarkdownEditor Component (`frontend/src/components/admin/MarkdownEditor.jsx`) ✅
+
+Split-pane content editor used in Blog Manager and Guides Manager.
+
+| Feature | Detail |
+|---------|--------|
+| **MD / HTML toggle** | Switches entire toolbar and preview mode; stored as `contentType` prop |
+| **Markdown toolbar** | B, I, H2, H3, UL, OL, inline code, code block, blockquote, HR, link, image |
+| **HTML toolbar** | `<p>`, `<h2>`, `<h3>`, `<strong>`, `<em>`, `<a>`, `<img>`, `<ul>`, `<ol>`, `<blockquote>`, `<code>`, `<pre>`, `<div>`, `<span>`, `<hr>`, `<br>`, `<table>` |
+| **View modes** | Edit · Split (side-by-side) · Preview |
+| **Live preview** | MD mode: `marked.parse()`; HTML mode: raw `innerHTML` |
+| **Footer** | Word count · char count · mode badge (orange=HTML, blue=MD) |
+
+`contentType` (`'markdown'` or `'html'`) is stored alongside `content` in `blog.json` / `guidesAdmin.json`.
+Public renderers (`BlogPost.jsx`, `GuideDetail.jsx`) check `contentType` and render accordingly.
 
 ---
 
@@ -845,34 +905,9 @@ Full-featured two-mode tool — the most complex tool on the platform.
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| **AI Stock Image Platform** (`/stock`) | Not started | Needs Unsplash or Pexels API key; download gate (ad / countdown); no storage needed for API-sourced images. See architecture notes below. |
-| **Blog** (`/blog`) | Not started | Shares Guide infrastructure — same content model, same `GuideSection` renderer. No new components needed. |
-| **sitemap.xml** | Needs update | Add `/tools/markdown-pdf` URL (`priority: 0.9`) |
-| **Guide article** | Optional | Could add one for Markdown ↔ PDF Converter |
-
-### AI Stock Image Platform & Blog — Architecture (Not Yet Built)
-
-#### AI Stock (`/stock`) — External dependencies required
-| Decision | Options |
-|----------|---------|
-| Image source | Unsplash API (50 req/hr free) · Pexels API (200 req/hr free) · Static curated set |
-| Download gate | AdSense Rewarded Ad · 3-second countdown · Email capture |
-| Storage | None needed for API-sourced · CDN/S3 for AI-generated |
-
-Planned files when approved:
-```
-frontend/src/pages/Stock.jsx          — gallery grid with search + categories
-frontend/src/pages/StockDetail.jsx    — full preview + download gate
-frontend/src/services/stockApi.js     — Unsplash/Pexels API calls
-```
-
-#### Blog (`/blog`) — Shares Guide infrastructure
-```
-frontend/src/constants/blog.js        — same content model as guides.js
-frontend/src/pages/Blog.jsx           — blog listing (reuses Guides.jsx pattern)
-frontend/src/pages/BlogPost.jsx       — article (reuses GuideDetail.jsx renderer)
-```
-No new components needed — `GuideSection` renderer is generic enough to power both.
+| **AI Stock Image Platform** (`/stock`) | Not started | Needs Unsplash or Pexels API key; download gate (ad / countdown); no storage needed for API-sourced images. |
+| **sitemap.xml** | Needs update | Add `/blog` and admin-published guide slugs |
+| **More guide/blog content** | Ongoing | Create via Admin → Blog Manager / Guides Manager (Markdown or HTML) |
 
 ---
 
@@ -883,6 +918,10 @@ No new components needed — `GuideSection` renderer is generic enough to power 
 ```
 GET    /health                      → Server health check
 POST   /api/track                   → Page view beacon (frontend calls this on mount)
+GET    /api/blog                    → Published blog posts (summary list)
+GET    /api/blog/:slug              → Single published blog post (full content)
+GET    /api/guides-api              → Published admin-managed guides (summary list)
+GET    /api/guides-api/:slug        → Single published guide (full content)
 ```
 
 ### Tool Endpoints (Rate limited: 30 req/min per IP)
@@ -920,6 +959,33 @@ PUT    /api/admin/revenue/:id        [JWT] body: same as POST
 DELETE /api/admin/revenue/:id        [JWT]
 GET    /api/admin/revenue/summary    [JWT] ?year&month → totals + by-month + by-category
 GET    /api/admin/revenue/categories [JWT] → unique category list
+
+GET    /api/admin/insights          [JWT] ?days=30 → AI insights (current vs previous period)
+GET    /api/admin/insights/users    [JWT] → user stats (active IPs, browser breakdown, hourly, top paths)
+GET    /api/admin/system            [JWT] → OS/process metrics (uptime, memory, CPU, load avg)
+
+GET    /api/admin/tools/overrides   [JWT] → all tool overrides
+PUT    /api/admin/tools/:id         [JWT] body: { enabled, featured, title, description }
+DELETE /api/admin/tools/:id         [JWT] → remove override (reverts to default)
+
+GET    /api/admin/logs              [JWT] → last 200 file processing log entries
+DELETE /api/admin/logs              [JWT] → clear all logs
+
+GET    /api/admin/seo               [JWT] → all SEO meta overrides
+PUT    /api/admin/seo/:path         [JWT] body: { title, description }
+DELETE /api/admin/seo/:path         [JWT]
+
+GET    /api/admin/blog              [JWT] → all blog posts (inc. drafts)
+GET    /api/admin/blog/:id          [JWT] → single post (full content)
+POST   /api/admin/blog              [JWT] multipart: title, content, contentType, tags, status, coverImage?
+PUT    /api/admin/blog/:id          [JWT] multipart: same fields (partial update)
+DELETE /api/admin/blog/:id          [JWT]
+
+GET    /api/admin/guides            [JWT] → all admin-managed guides (inc. drafts)
+GET    /api/admin/guides/:id        [JWT] → single guide
+POST   /api/admin/guides            [JWT] body: title, content, contentType, category, relatedTool, readTime, tags, status
+PUT    /api/admin/guides/:id        [JWT] body: same fields (partial update)
+DELETE /api/admin/guides/:id        [JWT]
 ```
 
 **All responses follow:**
@@ -962,10 +1028,47 @@ MAX_FILE_SIZE=10485760
 - Auto-redirects to `/admin/dashboard` on success
 
 ### Dashboard (`/admin/dashboard`)
-- **4 KPI cards:** Page Views (30d), Total Revenue, Tool Uses, Active Days
-- **Top Pages table** — most visited routes
-- **Most Used Tools** — horizontal progress bars
-- **Monthly Revenue** summary row
+- **6 KPI cards:** Page Views (30d), Files Processed, Total Revenue, Tool Uses, Active Days, Insights
+- **Animated bar chart** — top tools usage
+- **Quick-link grid** — shortcuts to all admin pages
+
+### AI Insights (`/admin/ai-insights`)
+- Compares current N-day period vs previous N-day period
+- **Insight cards** by type: best, worst, growing, declining, opportunity
+- **Recharts bar chart** — current vs previous tool usage side-by-side
+
+### Blog Manager (`/admin/blog`)
+- Table view: title, status badge (draft/published), date, Edit/Delete actions
+- Edit form: **MarkdownEditor** (MD/HTML toggle) + sidebar with status, tags, cover image (upload or URL), SEO fields
+
+### Guides Manager (`/admin/guides`)
+- Same two-view pattern as Blog Manager
+- Sidebar adds: category dropdown, related tool select (from TOOLS constant), read time input
+
+### Tools Manager (`/admin/tools`)
+- Full list of all 61 tools merged with backend overrides
+- Toggle switches: Enabled / Featured per tool
+- Inline editable title + description; Save button per dirty row
+
+### SEO Manager (`/admin/seo`)
+- Inline-editable rows: path / title / description
+- Per-row Save + Delete; AnimatePresence for row entry/exit
+- "Seed defaults" button for empty state
+
+### User Activity (`/admin/users`)
+- **4 KPI cards:** Active users today, total visits, new IPs, peak hour
+- **Hourly bar chart** — today's traffic by hour
+- **Browser pie chart** — Chrome/Firefox/Safari/Edge/Other
+- **Top paths** — most visited routes today with animated bar fill
+
+### File Logs (`/admin/logs`)
+- Table: timestamp, tool badge, filename, size, duration, status pill (✓ OK / ✗ Error)
+- Red row highlight on error entries
+- Auto-refresh toggle (5s); Clear all logs button
+
+### System Health (`/admin/system`)
+- Cards: uptime, heap used (with MiniBar), RSS, system memory, CPU count + load avg, Node version + env
+- Optional auto-poll every 10s
 
 ### Analytics (`/admin/analytics`)
 - Day range selector: 7 / 30 / 90 days
